@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>three.js - cynthia - lightning</title>
+<meta charset="utf-8">
+</head>
+<body style="background:#888; margin:0; overflow:hidden;">
+<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script type="text/javascript" src="http://mrdoob.github.com/three.js/src/extras/ImageUtils.js"></script>
+<script type="text/javascript" src="http://mrdoob.github.com/three.js/src/extras/primitives/Cube.js"></script>
+<script type="text/javascript">
+var renderer, camera, scene, r = 0, cubeArray = [];	
+var container = document.createElement('div');
+document.body.appendChild(container);
+camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 20 );	
+camera.position = {x: 1, y: 5, z: 3};
+scene = new THREE.Scene();
+for ( var i = 0; i < 200; i ++ ) {
+  var object = new THREE.Mesh( new Cube( 1, 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( { map: ImageUtils.loadTexture( 'textures/cynthia-draw-lightning.jpg' ) } ) );
+  object.position = {x: Math.random()*8-4, y: Math.random()*8-4, z: Math.random()*8-4};
+  object.rotation = {x: Math.random(), y: Math.random(), z: Math.random()};
+  scene.addObject(object);
+  cubeArray.push(object);
+}					
+renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+container.appendChild(renderer.domElement);
+renderer.render(scene, camera);
+setInterval( loop, 1000 / 60 );		
+function loop() {
+  camera.position = { x: 1 * Math.cos(r), y: 5, z: 3 * Math.sin(r) };
+  r += 0.01;
+  for ( var i = 0; i < 200; i ++ ) {
+    cubeArray[i].rotation.x += 0.05;
+    cubeArray[i].rotation.z += 0.05;
+  }  
+  renderer.render( scene, camera );
+}
+</script>
+</body>
+</html>
