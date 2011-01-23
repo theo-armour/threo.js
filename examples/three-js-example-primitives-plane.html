@@ -14,6 +14,8 @@
 	
 	var scene = new THREE.Scene();
 	
+	// var Plane = function ( width, height, segments_width, segments_height ) << from Plane.js source code
+	
 	// var plane = new THREE.Mesh(new Plane( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} ) );
 	var plane = new THREE.Mesh(new Plane( 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	scene.addObject(plane);

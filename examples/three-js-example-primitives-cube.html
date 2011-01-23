@@ -14,6 +14,8 @@
 	
 	var scene = new THREE.Scene();
 	
+	// var Cube = function ( width, height, depth, segments_width, segments_height, materials, flipped, sides ) << parameters from Cube.js source code
+	
 	// var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xff0000} ) );
 	var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	scene.addObject(cube);

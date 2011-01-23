@@ -14,6 +14,8 @@
 	
 	var scene = new THREE.Scene();
 	
+	// var Sphere = function ( radius, segments_width, segments_height ) << from Sphere.js source code
+	
 	// var sphere = new THREE.Mesh(new Sphere( 1, 16, 16 ), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} ) );
 	var sphere = new THREE.Mesh(new Sphere( 1, 16, 16), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	scene.addObject(sphere);
