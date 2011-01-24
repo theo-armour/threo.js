@@ -1,5 +1,3 @@
-hi
-2011-01-22
-20:39 
+There is nothing in the master branch for the moment. Please switch to the gh-pages branch.
 
-20:41 
+2011-01-23
