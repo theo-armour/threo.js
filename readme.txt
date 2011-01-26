@@ -1,3 +1,1 @@
-There is nothing in the master branch for the moment. Please switch to the gh-pages branch.
-
-2011-01-23
+This readme was added just to shut down the annoying GitHub message.
