@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>three.js - hello world - very basic</title>
+</head>
+<body>
+<script src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script type="text/javascript">
+
+	var scene = new THREE.Scene();
+
+	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xff0000}));
+	scene.addObject(cube);
+
+	var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 10);
+	camera.position = {x: 1, y: 2, z: 3};
+
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight); // nice but not actually necessary
+
+  var container = document.createElement('div');
+  document.body.appendChild(container);
+	container.appendChild(renderer.domElement);
+
+	renderer.render(scene, camera);
+
+</script>
+</body>
+</html>

@@ -4,26 +4,50 @@
 <title>three.js - example - primitives - cube</title>
 </head>
 <body>
-<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
 <script type="text/javascript">
-	var container = document.createElement('div');
-	document.body.appendChild(container);
-
-	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
-	camera.position = {x: 1, y: 2, z: 3};
 	
 	var scene = new THREE.Scene();
 	
-	// var Cube = function ( width, height, depth, segments_width, segments_height, materials, flipped, sides ) << parameters from Cube.js source code
+	var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 10);	
+	camera.position = {x: 1, y: 2, z: 3};
 	
-	// var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xff0000} ) );
-	var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	// var Cube = function ( width, height, depth, segments_width, segments_height, materials, flipped, sides ) << parameters from src\extras\primitives\Cube.js source code
+	
+	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xff0000}));   // << simplest possible
+	
+	// var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );  // << changes colors every reload
+	
+	// Dot Notation
+  // cube.position.x = 1;
+	// cube.position.y = 1;
+	// cube.position.z = 1;
+
+	// cube.rotation.x = 30 * Math.PI / 180;
+	// cube.rotation.y = 60 * Math.PI / 180;
+	// cube.rotation.z = -30 * Math.PI / 180;	
+	
+	// cube.scale.x = 1;
+	// cube.scale.y = 2;
+	// cube.scale.z = 3;
+
+	// cube visible = false;
+	
+	// Other options include: screen, autoUpdateMatrix, matrix, translationMatric, rotationMatrix, scaleMatrix
+	
+	// Object Notation
+	// cube.position = {x: 1, y: 1.5, z: 2};
+	// cube.scale = {x: 1, y: 1.5, z: 2};
+	// cube.rotation = {x: 360 * Math.PI / 180, y: 360 * Math.PI / 180, z: 360 * Math.PI / 180};
+	
 	scene.addObject(cube);
 
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	container.appendChild(renderer.domElement);
+	document.body.appendChild(renderer.domElement);
+	
 	renderer.render(scene, camera);
+	
 </script>
 </body>
 </html>

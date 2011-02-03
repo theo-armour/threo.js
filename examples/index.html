@@ -1,39 +1,52 @@
 <!doctype html>
 <html>
 <head>
-<title>threo.js - demo files for three.js</title>
+<title>threo.js - sample code for three.js</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="author" content="Theo Armour">
 <style>
-body {color: #ddd; background-color: #888; font-family: sans-serif; margin: 0 30% 20 30%; text-align: center;}
+body {color: #ddd; background-color: #888; font-family: sans-serif; margin: 0 30% 20% 30%; text-align: center;}
 a {color: #ccc;}
-/*
-h1 {margin: 10px 0 0 0;}
-h2 {margin: 25px 0 0 0;}
-p {text-align: left;} */
 #content {text-align: left; width: 642px; margin: auto;}
 </style>
 </head>
 <body>
 <div id="content">
 <br>
-<h1><a href="/threo.js">Home</a> > example files for three.js</h1>
+<h1><a href="/threo.js">Home</a> >Sample Code for Three.js</h1>
 
-<p><a href="three-js-example-primitives-cube.html">Cube Primitive</a></p>
+<p>
+All code on this page available on GitHub at <a href="https://github.com/tarmour/threo.js/tree/master/examples" target="_blank">examples</a>
+</p>
+
+<p><a href="three-js-example-primitives-cube.html">Cube Primitive</a><br>
+This is Three.js at its simplest most basic level - just a cube on a white background angled so you can see it is a 3D object. Have a look at the source code on GitHub. There are a number of useful options to try out just by uncommenting the source code.</p>
 
 <p><a href="three-js-example-primitives-cylinder.html">Cylinder Primitive</a><br>
-The cylinder primitive offers many construction parameters. For example this primitive can be used to create a cone.</p>
+The cylinder primitive offers many construction parameters. For example this primitive can be used to create a pyramid or cone or even a cube.</p>
 
 <p><a href="three-js-example-primitives-plane.html">Plane Primitive</a><br>
-Note that the plane is constructed in the XY axis and that in WebGL the Z axis is the one that comes out of the screen.</p>
+Note that the plane is constructed in the XY axis and that in three.js the Z-axis is the one that comes straight out of the screen towards the viewer.</p>
 
-<p><a href="three-js-example-primitives-sphere.html">Sphere Primitive</a></p>
+<p><a href="three-js-example-primitives-sphere.html">Sphere Primitive</a><br>
+The sphere has only a few options: radius and number of horizontal and vertical segments. All the others such as position and scale are the same as the cube.</p>
+
+<p><a href="three-js-example-camera.html">Camera</a><br>
+The camera has a number of special options. See the comments in the source code for details. By the way, the camera is invisible.</p>
+
+<p><a href="three-js-example-primitives-4-primitives.html">Four Primitives Used in One File</a></p>
 
 <p><img src="4-prims.jpg" width="320"><br>
 <i><small>screen capture of 4 Primitives example.</small></i></p>
+<p>
+Just for the fun of it, here is a file with four primitives: cube, sphere, cylinber with offsets all floting above a plane. This file gives you some ideas about placing, scaling and rotating primitives.</p>
 
-<p><a href="three-js-example-primitives-4-primitives.html">Four Primities Used in One File</a></p>
+<h2>Updates</h2>
 
+<p>2011-02-02: The Camera file was added. Source code for most files was simplified even further. Additional text and links were added to this page. </p>
+
+
+<h2>Notes</h2>
 <p>These coding samples are built on top of <a href="https://github.com/mrdoob/three.js#readme" target="_blank">three.js</a> which is a lightweight 3D engine working over <a href="http://en.wikipedia.org/wiki/WebGL" target="_blank">WebGL</a>.</p>
 
 <p>The simplest way tp see the sourcode is to use the view Page Source feature of your browser. Or you can view the sourcecode using <a href="https://github.com/tarmour/threo.js/tree/gh-pages">GitHub</a>.

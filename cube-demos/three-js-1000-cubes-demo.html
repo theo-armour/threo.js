@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>three.js - 1000 cubes demo 02</title>
+</head>
+<body style="background:#33b; margin:0; overflow:hidden;">
+<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script type="text/javascript">
+	
+	var scene = new THREE.Scene();
+	
+	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 0.1, 50 );	
+	camera.position = {x: 0, y: 0, z: 10};
+
+	var ambient = new THREE.AmbientLight( 0x101010 );
+	scene.addLight( ambient );
+
+	directionalLight = new THREE.DirectionalLight( 0xffffff );
+	directionalLight.position.x = 1;
+	directionalLight.position.y = 1;
+	directionalLight.position.z = 2;
+	directionalLight.position.normalize();
+	scene.addLight( directionalLight );
+
+	pointLight = new THREE.PointLight( 0xffffff );
+	pointLight.position.x = 0;
+	pointLight.position.y = 0;
+	pointLight.position.z = 0;
+	scene.addLight( pointLight );
+
+	for (var i = -15; i < 15; i += 3 ) {
+	  for (var j = -15; j < 15; j += 3 ) {
+	    for (var k = -15; k < 15; k += 3 ) {
+		   var cube = new THREE.Mesh( new Cube( 2, 2, 2 ), new THREE.MeshPhongMaterial( { color: 0xaa0000, opacity: 0.3, specular: 0x555555, shininess: 30 } ) );
+        cube.position = {x: i, y: j, z: k};		  
+        scene.addObject(cube);
+		  }
+    }	
+  }
+  
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+    
+  var container = document.createElement('div');
+	document.body.appendChild(container);
+	container.appendChild(renderer.domElement);
+	
+	var delta = 0;
+	
+	function loop() {
+	  camera.position = {x: Math.cos(delta), y: 5, z: 3 * Math.sin(delta) };
+	  delta += 0.01;
+	  for ( var i = 0; i < 1000; i++ ) {  
+      scene.objects[i].rotation.x += 0.2 * Math.random();  // how to do += in JavaScript object notation?
+		  scene.objects[i].rotation.z += 0.05;
+	  } 
+     
+	  renderer.render( scene, camera );
+	}
+	
+	setInterval( loop, 1000 / 60 );	
+	
+</script>
+</body>
+</html>

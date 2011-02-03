@@ -1,0 +1,11 @@
+<body>
+<script src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script>
+scene=new THREE.Scene()
+scene.addObject(new THREE.Mesh(new Cube(1,1,1),new THREE.MeshBasicMaterial({color:0xff})))
+k=new THREE.Camera(50,1,1,9)
+k.position={x:1,y:1,z:2}
+r=new THREE.WebGLRenderer()
+document.body.appendChild(r.domElement)
+r.render(scene,k)
+</script>
