@@ -13,7 +13,7 @@
   var len = 256, sca = 3 * Math.random() + 1;
   scene.fog = new THREE.Fog( Math.random() * 0xffffff, 1, 0.5 * len );
   
-  var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 100);	
+  var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 0.3 * len);	
   camera.position = {x: 0, y: 0, z: 40};
   
   var i, cube;
