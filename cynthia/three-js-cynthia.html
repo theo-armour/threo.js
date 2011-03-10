@@ -4,7 +4,7 @@
 <title>three.js - cynthia</title>
 </head>
 <body style="background:#000; margin:0; overflow:hidden;">
-<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/Three.js"></script>
 <script type="text/javascript">
   
   var scene = new THREE.Scene();
@@ -30,10 +30,10 @@
 	var delta = 0;
   function loop() {
     camera.position = {x: Math.cos(delta), y: 5, z: 3 * Math.sin(delta)};
-    delta += 0.01;
+    delta += 0.005;
     for (i = 0; i < 200; i ++ ) {
-      scene.objects[i].rotation.x += 0.05;
-      scene.objects[i].rotation.z += 0.05;
+      scene.objects[i].rotation.x += 0.03;
+      scene.objects[i].rotation.z += 0.03;
     } 
     renderer.render(scene, camera );
   }

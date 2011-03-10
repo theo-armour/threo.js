@@ -4,7 +4,7 @@
 <title>three.js - cynthia - squiggles 2</title>
 </head>
 <body style="background:#666; margin:0; overflow:hidden;">
-<script src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
 <script type="text/javascript">
   var scene = new THREE.Scene();
   var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 20);
@@ -29,8 +29,8 @@
     camera.position = {x: 1 * Math.cos(r), y: 5, z: 3 * Math.sin(r)};
     r += 0.01;
     for (i = 0; i < 200; i++) {
-      scene.objects[i].rotation.x += 0.05;
-      scene.objects[i].rotation.z += 0.05;
+      scene.objects[i].rotation.x += 0.02;
+      scene.objects[i].rotation.z += 0.02;
     }
     renderer.render(scene, camera);
   }
