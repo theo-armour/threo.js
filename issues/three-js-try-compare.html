@@ -5,6 +5,7 @@
 </head>
 <body>
 <script src="http://mrdoob.github.com/three.js/build/ThreeExtras.js"></script>
+<script type="text/javascript" src="WebGLRenderer2.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
 <script type="text/javascript">
 
@@ -33,7 +34,7 @@
     }
 
     // renderer = new THREE.CanvasRenderer();
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer2();
 
     renderer.setSize(window.innerWidth, window.innerHeight );
     document.body.appendChild(renderer.domElement);
