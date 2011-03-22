@@ -7,17 +7,17 @@
 <script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
 <script>
 
-			var worldWidth = 256, worldDepth = 256,
-			worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
+			// var worldWidth = 256, worldDepth = 256,
+			// worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 
-			var mouseX = 0, mouseY = 0,
-			lat = 0, lon = 0, phy = 0, theta = 0;
+  var mouseX = 0, mouseY = 0,
+	lat = 0, lon = 0, phy = 0, theta = 0;
 
-			var direction = new THREE.Vector3(),
-			moveForward = false, moveBackward = false;
+	var direction = new THREE.Vector3(),
+	moveForward = false, moveBackward = false;
 
-			var windowHalfX = window.innerWidth / 2;
-			var windowHalfY = window.innerHeight / 2;
+	var windowHalfX = window.innerWidth / 2;
+	var windowHalfY = window.innerHeight / 2;
   /*
 	var scene = new THREE.Scene();
 
@@ -25,18 +25,18 @@
 	camera.position = {x: 0, y: 0, z: 8};
 	camera.target.position = {x: 0, y: 0, z: 8};
 	*/
+
+	scene = new THREE.Scene();
+
 	camera = new THREE.Camera( 60, window.innerWidth / window.innerHeight, 1, 200 );
-				camera.target.position.z = - 10;
+	camera.position = {x: 10, y: 0, z: -2};
+	camera.target.position = {x: 0, y: 0, z: 1};
 
-				scene = new THREE.Scene();
+  
 
-			// 	data = generateHeight( worldWidth, worldDepth );
-
-				camera.position.y = 3; // ( data[ worldHalfWidth + ( worldHalfDepth * worldWidth ) ] * 10 ) + 200;
-				camera.target.position.y = camera.position.y;				
+  // ( data[ worldHalfWidth + ( worldHalfDepth * worldWidth ) ] * 10 ) + 200;
+	// camera.target.position.y = camera.position.y;				
 				
-				
-	
 	// Light added here
 	var pointLight = new THREE.PointLight(0xffffff);
 	scene.addLight(pointLight);		
@@ -107,22 +107,22 @@
  
 	
 	function loop() {
-	  // light positioned with camera here
-	  //pointLight.position = {x: radius * Math.cos(theta), y: radius * Math.sin(phi), z: radius * Math.sin(theta)};
 
- 				if ( moveForward ) camera.translateZ( - 0.25 );
-				if ( moveBackward ) camera.translateZ( 0.25 );
+ 	  if ( moveForward ) camera.translateZ( - 0.25 );
+	  if ( moveBackward ) camera.translateZ( 0.25 );
 
-				lon += mouseX * 0.002;
-				lat -= mouseY * 0.002;
+	  lon += mouseX * 0.002;
+	  lat -= mouseY * 0.002;
 
-				lat = Math.max( - 85, Math.min( 85, lat ) );
-				phi = ( 90 - lat ) * Math.PI / 180;
-				theta = lon * Math.PI / 180;
+	  lat = Math.max( - 85, Math.min( 85, lat ) );
+	  phi = ( 90 - lat ) * Math.PI / 180;
+	  theta = lon * Math.PI / 180;
 
-				camera.target.position.x = 100 * Math.sin( phi ) * Math.cos( theta ) + camera.position.x;
-				camera.target.position.y = 100 * Math.cos( phi ) + camera.position.y;
-				camera.target.position.z = 100 * Math.sin( phi ) * Math.sin( theta ) + camera.position.z;
+		camera.target.position.x = 100 * Math.sin( phi ) * Math.cos( theta ) + camera.position.x;
+		camera.target.position.y = 100 * Math.cos( phi ) + camera.position.y;
+		camera.target.position.z = 100 * Math.sin( phi ) * Math.sin( theta ) + camera.position.z;
+				
+		pointLight.position = camera.position;
 
 		renderer.render(scene, camera);
 	}
