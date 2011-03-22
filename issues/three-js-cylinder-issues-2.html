@@ -23,7 +23,7 @@
 		<script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
 		<script type="text/javascript" src="js/Stats.js"></script>
 		
-    <script type="text/javascript" src="QuakePlus01Camera.js"></script>
+                <script type="text/javascript" src="QuakePlus01Camera.js"></script>
     
 		<script type="text/javascript" src="Cylinder.js"></script>
 		
@@ -42,17 +42,17 @@
 
 				container = document.createElement('div');
 				document.body.appendChild(container);
-       /*
+                        /*
 				camera = new THREE.Camera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 				camera.position.y = 0;
 				camera.position.z = 800;
-			 */
+			*/
 			 
-        camera = new THREE.QuakeCamera( { fov: 50, aspect: window.innerWidth / window.innerHeight, near: 1, far: 10000, movementSpeed: 2, lookSpeed: 0.001, noFly: false, lookVertical: true, dragToLook: false, heightSpeed: false} );
+                                camera = new THREE.QuakeCamera( { fov: 50, aspect: window.innerWidth / window.innerHeight, near: 1, far: 10000, movementSpeed: 2, lookSpeed: 0.001, noFly: false, lookVertical: true, dragToLook: false, heightSpeed: false} );
 
-        // camera.position.set( 800,0,0);	
-        camera.position.x = -500;			
-        camera.position.y = 100;
+                                // camera.position.set( 800,0,0);	
+                                camera.position.x = -500;			
+                                camera.position.y = 100;
 				camera.position.z = 0;
 				
 				scene = new THREE.Scene();
@@ -68,10 +68,10 @@
 				scene.addLight( light );
         
 				var object = new THREE.Mesh(new Plane(10,10,50,50), new THREE.MeshBasicMaterial({ color: 0x666666, wireframe: true }))
-      	object.position = {x: 0, y: -100, z: 0};
-        object.rotation = {x: 1.57, y: 0, z: 0};
-        object.scale = {x: 100, y: 100, z: 100};
-        scene.addObject(object);
+      	                        object.position = {x: 0, y: -100, z: 0};
+                               object.rotation = {x: 1.57, y: 0, z: 0};
+                               object.scale = {x: 100, y: 100, z: 100};
+                               scene.addObject(object);
 
 				material = [
 						new THREE.MeshLambertMaterial( { color: 0xffffff } ),
@@ -81,7 +81,7 @@
 				object = new THREE.Mesh( new Cylinder( 50, 100, 100, 100, 100 , 100), material );
 				object.position.z = 0;
 				object.rotation.z = - Math.PI / 2;
-        object.rotation.y = Math.PI;
+                                object.rotation.y = Math.PI;
 				
 				scene.addObject( object );
             
@@ -118,7 +118,7 @@
 					object.rotation.x += 0.01;
 					object.rotation.y += 0.005;
 				}
-				*/
+		       */
 				
 				renderer.render( scene, camera );
 
