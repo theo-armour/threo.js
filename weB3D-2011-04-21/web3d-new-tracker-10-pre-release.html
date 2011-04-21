@@ -253,8 +253,8 @@ function render() {
         }
         */
         change =  1000 * symData.change / symData.price;
-        num = 50 * Math.log(symData.volume / sym.avgvolume) / Math.LN10;
-        //num = 50 * symData.volume / sym.avgvolume;                
+        // num = 50 * Math.log(symData.volume / sym.avgvolume) / Math.LN10;
+        num = 50 * symData.volume / sym.avgvolume;                
         if (num < minimumY) {
           minimumY = num + 50;
         }   		
