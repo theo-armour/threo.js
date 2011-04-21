@@ -2,6 +2,7 @@
  * @author kile / http://kile.stravaganza.org/
  * @author mr.doob / http://mrdoob.com/
  * @author fuzzthink
+ * suggested revisions by Theo Armour
  */
 
 var Cylinder = function ( numSegs, topRad, botRad, height, topOffset, botOffset ) {
@@ -73,9 +74,9 @@ var Cylinder = function ( numSegs, topRad, botRad, height, topOffset, botOffset 
 		var finished = 0;
 
 		// for ( i = numSegs + ( numSegs / 2 ); i < 2 * numSegs; i ++ ) {
-    for ( i = numSegs; i < 2 * numSegs; i ++ ) {
+                for ( i = numSegs; i < 2 * numSegs; i ++ ) {
     
-      if (i == 2 * numSegs - 1) {finished = numSegs;}
+                if (i == 2 * numSegs - 1) {finished = numSegs;}
 			f3(
 				2 * numSegs + 1,
 				//( 2 * i - 2 * numSegs + 2 ) % numSegs + numSegs,
