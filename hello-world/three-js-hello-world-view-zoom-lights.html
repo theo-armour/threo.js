@@ -16,7 +16,7 @@
 	var pointLight = new THREE.PointLight(0xffffff);
 	scene.addLight(pointLight);		
 
-	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
+	var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
 	scene.addObject(cube);	
 	
 	var renderer = new THREE.WebGLRenderer();
@@ -33,11 +33,22 @@
 	}
   
   function onDocumentMouseWheel(event) {
-		event.preventDefault();
-		radius += 0.02 * event.detail;
-	}
+    // WebKit
+    if (event.wheelDeltaY) {
+        radius -= event.wheelDeltaY * 0.01;
+
+        // Opera / Explorer 9
+    } else if (event.wheelDelta) {
+        radius -= event.wheelDelta * 0.01;
+
+        // Firefox
+    } else if (event.detail) {
+        radius += event.detail * 0.02;
+    }
+  }
 	
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
+  document.addEventListener('mousewheel', onDocumentMouseWheel, false);
   document.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);	
 	
 	function loop() {

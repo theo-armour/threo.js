@@ -49,12 +49,12 @@
   
 // center cube  
   
-	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
+	var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
 	scene.addObject(cube);	
 	
 	// Cubes
 
-  var geometry = new Cube( 1, 1, 1 );
+  var geometry = new THREE.Cube( 1, 1, 1 );
   // var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading } );
  //  var material = new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.5});
   var material = new THREE.MeshNormalMaterial({opacity: 0.5});
@@ -73,8 +73,7 @@
 	  scene.addObject(cube);
 
   }
-	
-	
+		
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);

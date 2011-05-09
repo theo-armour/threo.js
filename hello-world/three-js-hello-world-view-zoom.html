@@ -9,7 +9,7 @@
 
 	var scene = new THREE.Scene();
 
-	var cube = new THREE.Mesh(new Cube(1, 1, 1), [new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff, opacity: 0.8}), new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff, wireframe: true})]);
+	var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1), [new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff, opacity: 0.8}), new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff, wireframe: true})]);
 	scene.addObject(cube);
 
 	var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -32,11 +32,23 @@
 	}
   
   function onDocumentMouseWheel(event) {
-		event.preventDefault();
-		radius += event.detail * 0.02;
-	}
+    // WebKit
+    if (event.wheelDeltaY) {
+        radius -= event.wheelDeltaY * 0.01;
+
+        // Opera / Explorer 9
+    } else if (event.wheelDelta) {
+        radius -= event.wheelDelta * 0.01;
+
+        // Firefox
+    } else if (event.detail) {
+        radius += event.detail * 0.02;
+    }
+  }
+
 	
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
+  document.addEventListener('mousewheel', onDocumentMouseWheel, false);
   document.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);
   
 	function loop() {

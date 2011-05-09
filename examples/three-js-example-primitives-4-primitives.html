@@ -12,20 +12,20 @@
 	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
 	camera.position = {x: 3, y: 2, z: 3};
 	
-	var plane = new THREE.Mesh(new Plane( 10, 10, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	var plane = new THREE.Mesh(new THREE.Plane( 10, 10, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	plane.rotation.x = -90 * Math.PI / 180;
 	scene.addObject(plane);
 	
-	var cylinder = new THREE.Mesh(new Cylinder( 24, 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	var cylinder = new THREE.Mesh(new THREE.Cylinder( 24, 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	cylinder.position.y = 1.5;
 	cylinder.rotation.y = -45 * Math.PI / 180;
 	scene.addObject(cylinder);
 	
-	var sphere = new THREE.Mesh(new Sphere( 1, 16, 16), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	var sphere = new THREE.Mesh(new THREE.Sphere( 1, 16, 16), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	sphere.position = {x: -1, y: 1, z: 1.5};
 	scene.addObject(sphere);
 	
-	var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	var cube = new THREE.Mesh(new THREE.Cube( 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
 	cube.position.x = 1.5;
 	cube.position.y = 1;
 	cube.position.z = .5;

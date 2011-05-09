@@ -43,12 +43,12 @@
 	scene.addLight( pointLight );	
   
   // good side
-	var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( {color: 0x00ff00} ) );
+	var cube = new THREE.Mesh(new THREE.Cube( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( {color: 0x00ff00} ) );
 	cube.position.z = -2;
 	scene.addObject(cube);
 	
 	// bad side
-	var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( { color: 0xff0000 } ) ); 	
+	var cube = new THREE.Mesh(new THREE.Cube( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( { color: 0xff0000 } ) ); 	
 	cube.position.z = 2;
 	scene.addObject(cube);	
 	
@@ -56,10 +56,10 @@
 	
 	// no height - no offsets
 	for (var i = 3; i < 9; i++) {
-		// var cylinder = new THREE.Mesh(new Cylinder( i, 1), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} )  );
-		
+		// var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} )  );
+	
 		// not happy with Lambert on green side. All surfaces are black
-		var cylinder = new THREE.Mesh(new Cylinder( i, 1), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } )  );
+		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 1), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } )  );
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = -5;
 		cylinder.position.z = 0;
@@ -68,9 +68,9 @@
 	
 	// no height - offset on red side
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 2, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 2, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
-		// var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 2, 0), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );		
+		// var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 2, 0), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );		
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = -3;
 		cylinder.position.z = 0;
@@ -79,9 +79,9 @@
 
   // no height - offset on red side
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 0, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 0, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
-		// var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 0, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );		
+		// var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 0, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );		
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = -1;
 		cylinder.position.z = 0;
@@ -90,7 +90,7 @@
 
   // no height - offsets both side		
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
 		// var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 2, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
 		cylinder.position.x = (-11 + 2 * i);
@@ -101,7 +101,7 @@
 
   // height - no offsets	
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 2, 0, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.99} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 2, 0, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.99} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 
 		//var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 2, 0, 0), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
 		cylinder.position.x = (-11 + 2 * i);
@@ -112,9 +112,9 @@
 	
 	// height - Offset at both ends
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 2, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 2, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
-		//var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 2, 2, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
+		//var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 2, 2, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = 5;
 		cylinder.position.z = 0;
@@ -132,6 +132,7 @@
 	dist = 6;
 
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+  document.addEventListener( 'mousewheel', onDocumentMouseWheel, false);
 	document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false );	
 	
 	function onDocumentMouseMove(event) {
@@ -139,10 +140,20 @@
 		mouseY = 0.002 * (event.clientY - windowHalfY);
 	}
 	
-	function onDocumentMouseWheel(event) {
-		event.preventDefault();
-		dist += event.detail * 0.2;
-	}
+  function onDocumentMouseWheel(event) {
+    // WebKit
+    if (event.wheelDeltaY) {
+        dist -= event.wheelDeltaY * 0.1;
+
+        // Opera / Explorer 9
+    } else if (event.wheelDelta) {
+        dist -= event.wheelDelta * 0.1;
+
+        // Firefox
+    } else if (event.detail) {
+        dist += event.detail * 0.2;
+    }
+  }
 	
 	function loop() {
 	  pointLight.position.x = camera.position.x = dist * Math.sin(mouseX);

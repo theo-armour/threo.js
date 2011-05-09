@@ -19,7 +19,7 @@
     camera.position.z = -1000;
     
     var cube;
-    var geometry = new Cube(20, 20, 20);
+    var geometry = new THREE.Cube(20, 20, 20);
     var material = new THREE.MeshBasicMaterial({color: 0xaa0000, opacity: 0.3});
     for (var i = 0; i < 1000; i++) { 
         cube = new THREE.Mesh(geometry, material);     

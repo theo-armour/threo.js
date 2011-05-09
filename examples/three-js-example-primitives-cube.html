@@ -14,7 +14,7 @@
 	
 	// var Cube = function ( width, height, depth, segments_width, segments_height, materials, flipped, sides ) << parameters from src\extras\primitives\Cube.js source code
 	
-	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xff0000}));   // << simplest possible
+	var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xff0000}));   // << simplest possible
 	
 	// var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );  // << changes colors every reload
 	

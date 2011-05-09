@@ -67,7 +67,7 @@
 				light.position.z = - 100;
 				scene.addLight( light );
         
-				var object = new THREE.Mesh(new Plane(10,10,50,50), new THREE.MeshBasicMaterial({ color: 0x666666, wireframe: true }))
+				var object = new THREE.Mesh(new THREE.Plane(10,10,50,50), new THREE.MeshBasicMaterial({ color: 0x666666, wireframe: true }))
       	                        object.position = {x: 0, y: -100, z: 0};
                                object.rotation = {x: 1.57, y: 0, z: 0};
                                object.scale = {x: 100, y: 100, z: 100};
@@ -78,7 +78,7 @@
 						new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, opacity: 0.1 } )
 				];
         
-				object = new THREE.Mesh( new Cylinder( 50, 100, 100, 100, 100 , 100), material );
+				object = new THREE.Mesh( new THREE.Cylinder( 50, 100, 100, 100, 100 , 100), material );
 				object.position.z = 0;
 				object.rotation.z = - Math.PI / 2;
                                 object.rotation.y = Math.PI;

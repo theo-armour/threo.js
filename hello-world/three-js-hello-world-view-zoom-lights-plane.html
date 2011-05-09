@@ -47,7 +47,7 @@
   plane.scale = {x: 10, y: 10, z: 10};
   scene.addObject(plane);
   
-	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
+	var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
 	scene.addObject(cube);	
 	
 	var renderer = new THREE.WebGLRenderer();
