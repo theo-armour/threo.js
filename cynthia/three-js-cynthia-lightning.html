@@ -9,17 +9,17 @@
 <script type="text/javascript">
   var scene = new THREE.Scene();
 
-  var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 20);
+  var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 20);
   camera.position = {x: 1, y: 5, z: 3};
 
   var i, cube;
-  var geometry = new THREE.Cube(1, 1, 1);
+  var geometry = new THREE.CubeGeometry(1, 1, 1);
   var material = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('textures/cynthia-draw-lightning.jpg')})
   for (i = 0; i < 200; i++) {
     cube = new THREE.Mesh(geometry, material);
     cube.position = {x: Math.random() * 8 - 4, y: Math.random() * 8 - 4, z: Math.random() * 8 - 4};
     cube.rotation = {x: Math.random(), y: Math.random(), z: Math.random()};
-    scene.addObject(cube);
+    scene.add(cube);
   }
 
   var renderer = new THREE.WebGLRenderer();
