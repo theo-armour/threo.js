@@ -9,11 +9,11 @@
 
 	var scene = new THREE.Scene();
 
-	var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 10);
-	camera.position = {x: 1, y: 2, z: 3};
+	var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 10);
+	camera.position = {x: 1, y: 1.5, z: 3};
   
-  var cube = new THREE.Mesh(new THREE.Cube(1, 1, 1), new THREE.MeshNormalMaterial());
-	scene.addObject(cube);
+  var cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshNormalMaterial());
+	scene.add(cube);
 
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight); // nice but not actually necessary

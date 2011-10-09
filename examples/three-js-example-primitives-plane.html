@@ -9,16 +9,16 @@
 	var container = document.createElement('div');
 	document.body.appendChild(container);
 
-	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
-	camera.position = {x: 1, y: 2, z: 3};
+	var camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
+	camera.position = {x: 1.2, y: 2, z: 3};
 	
 	var scene = new THREE.Scene();
 	
 	// var Plane = function ( width, height, segments_width, segments_height ) << from Plane.js source code
 	
 	// var plane = new THREE.Mesh(new THREE.Plane( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} ) );
-	var plane = new THREE.Mesh(new THREE.Plane( 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
-	scene.addObject(plane);
+	var plane = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshNormalMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	scene.add(plane);
 
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);

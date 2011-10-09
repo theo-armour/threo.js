@@ -9,8 +9,8 @@
 	var container = document.createElement('div');
 	document.body.appendChild(container);
 
-	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
-	camera.position = {x: 1, y: 2, z: 3};
+	var camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
+	camera.position = {x: 1, y: 2, z: 5};
 	
 	var scene = new THREE.Scene();
 	
@@ -18,8 +18,8 @@
 	
 	// var cylinder = new THREE.Mesh(new Cylinder( 24, 1, 1, 1, 1, 1), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} ) );
   
-	var cylinder = new THREE.Mesh(new THREE.Cylinder( 24, 1, 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
-	scene.addObject(cylinder);
+	var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( 2, 2, 2, 20), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshNormalMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	scene.add(cylinder);
 
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);

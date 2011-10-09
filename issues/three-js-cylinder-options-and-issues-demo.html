@@ -21,36 +21,36 @@
 			
 	setInterval( loop, 1000 / 60 );
 	
-	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 100 );	
+	var camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 100 );	
 	camera.position = {x: 0, y: 0, z: 6};
 	
 	var scene = new THREE.Scene();
 	
   var ambient = new THREE.AmbientLight( 0x101010 );
-	scene.addLight( ambient );
+	scene.add( ambient );
 
 	var directionalLight = new THREE.DirectionalLight( 0xffffcc, 1.0);
 	directionalLight.position.x = 1;
 	directionalLight.position.y = 1;
 	directionalLight.position.z = 12;
 	directionalLight.position.normalize();
-	scene.addLight( directionalLight );
+	scene.add( directionalLight );
 
 	var pointLight = new THREE.PointLight( 0xffffff );
 	pointLight.position.x = 0;
 	pointLight.position.y = 0;
 	pointLight.position.z = 0;
-	scene.addLight( pointLight );	
+	scene.add( pointLight );	
   
   // good side
-	var cube = new THREE.Mesh(new THREE.Cube( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( {color: 0x00ff00} ) );
+	var cube = new THREE.Mesh(new THREE.CubeGeometry( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( {color: 0x00ff00} ) );
 	cube.position.z = -2;
-	scene.addObject(cube);
+	scene.add(cube);
 	
 	// bad side
-	var cube = new THREE.Mesh(new THREE.Cube( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( { color: 0xff0000 } ) ); 	
+	var cube = new THREE.Mesh(new THREE.CubeGeometry( 1, 1, 1, 1, 1 ), new THREE.MeshLambertMaterial( { color: 0xff0000 } ) ); 	
 	cube.position.z = 2;
-	scene.addObject(cube);	
+	scene.add(cube);	
 	
 	// var Cylinder = function ( numSegs, topRad, botRad, height, topOffset, botOffset ) << from Cylinder.js source code
 	
@@ -59,66 +59,66 @@
 		// var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} )  );
 	
 		// not happy with Lambert on green side. All surfaces are black
-		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 1), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } )  );
+		var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( i, 1, 1, 1), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } )  );
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = -5;
 		cylinder.position.z = 0;
-		scene.addObject(cylinder);
+		scene.add(cylinder);
 	}
 	
 	// no height - offset on red side
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 2, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( i, 1, 1, 0, 2, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
 		// var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 2, 0), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );		
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = -3;
 		cylinder.position.z = 0;
-		scene.addObject(cylinder);
+		scene.add(cylinder);
 	}
 
   // no height - offset on red side
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 0, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( i, 1, 1, 0, 0, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
 		// var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 0, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );		
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = -1;
 		cylinder.position.z = 0;
-		scene.addObject(cylinder);
+		scene.add(cylinder);
 	}
 
   // no height - offsets both side		
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 0, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( i, 1, 1, 0, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
 		// var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 0, 2, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = 1;
 		cylinder.position.z = 0;
-		scene.addObject(cylinder);
+		scene.add(cylinder);
 	}	
 
   // height - no offsets	
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 2, 0, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.99} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( i, 1, 1, 2, 0, 0), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.99} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 
 		//var cylinder = new THREE.Mesh(new Cylinder( i, 1, 1, 2, 0, 0), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = 3;
 		cylinder.position.z = 0;
-		scene.addObject(cylinder);
+		scene.add(cylinder);
 	}		
 	
 	// height - Offset at both ends
 	for (var i = 3; i < 9; i++) {
-		var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 2, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
+		var cylinder = new THREE.Mesh(new THREE.CylinderGeometry( i, 1, 1, 2, 2, 2), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {cylinder: Math.random() * 0xffffff, wireframe: true }) ] );
 		
 		//var cylinder = new THREE.Mesh(new THREE.Cylinder( i, 1, 1, 2, 2, 2), new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff, opacity: 0.9 } ) );
 		cylinder.position.x = (-11 + 2 * i);
 		cylinder.position.y = 5;
 		cylinder.position.z = 0;
-		scene.addObject(cylinder);
+		scene.add(cylinder);
 	}		
 	
 	var renderer = new THREE.WebGLRenderer();

@@ -15,7 +15,7 @@
 	// near = how near to camera to cut off processing
 	// far = how far away from camera to cut off processing
 	
-	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
+	var camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
 	camera.position = {x: 1, y: 2, z: 3};
 
 	// camera.target = {x: 0, y: 0, z: 0};  // where is the target of the camera
@@ -24,8 +24,8 @@
 	// camera.matrix = new THREE.Matrix4(); // ??
 	// camera.up = { x: 0, y: 1, z: 0 };	
 	
-	var cube = new THREE.Mesh(new THREE.Cube( 1, 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xff0000} ) );   // << simplest possible	
-	scene.addObject(cube);
+	var cube = new THREE.Mesh(new THREE.CubeGeometry( 1, 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xff0000} ) );   // << simplest possible	
+	scene.add(cube);
 
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
