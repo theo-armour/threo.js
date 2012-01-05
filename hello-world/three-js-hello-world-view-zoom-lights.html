@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>three.js - hello world - view - zoom - lights</title>
+</head>
+<body>
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script>
+
+	var scene = new THREE.Scene();
+
+	var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 0.1, 100);
+	camera.position = {x: 0, y: 0, z: 2};
+	
+	// Light added here
+	var pointLight = new THREE.PointLight(0xffffff);
+	scene.addLight(pointLight);		
+
+	var cube = new THREE.Mesh(new Cube(1, 1, 1), new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff, opacity: 0.8}));
+	scene.addObject(cube);	
+	
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	var radius = 2, theta = 0, phi = 0,
+	windowHalfX = 0.5 * window.innerWidth,
+	windowHalfY = 0.5 * window.innerHeight;
+  
+	function onDocumentMouseMove(event) {
+		theta = 0.002 * (event.clientX - windowHalfX);
+		phi = 0.002 * (event.clientY - windowHalfY);
+	}
+  
+  function onDocumentMouseWheel(event) {
+		event.preventDefault();
+		radius += 0.02 * event.detail;
+	}
+	
+	document.addEventListener('mousemove', onDocumentMouseMove, false);
+  document.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);	
+	
+	function loop() {
+	  // light positioned with camera here
+	  pointLight.position = camera.position = {x: radius * Math.cos(theta), y: radius * Math.sin(phi), z: radius * Math.sin(theta)};
+
+		renderer.render(scene, camera);
+	}
+
+  setInterval(loop, 1000 / 60);
+
+</script>
+</body>
+</html>

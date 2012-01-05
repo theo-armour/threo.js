@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>three.js - example - primitives - plane</title>
+</head>
+<body>
+<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script type="text/javascript">
+	var container = document.createElement('div');
+	document.body.appendChild(container);
+
+	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
+	camera.position = {x: 1, y: 2, z: 3};
+	
+	var scene = new THREE.Scene();
+	
+	// var Plane = function ( width, height, segments_width, segments_height ) << from Plane.js source code
+	
+	// var plane = new THREE.Mesh(new Plane( 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} ) );
+	var plane = new THREE.Mesh(new Plane( 1, 1, 1, 1), [new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, opacity: 0.5} ) , new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff, wireframe: true }) ] );
+	scene.addObject(plane);
+
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	container.appendChild(renderer.domElement);
+	renderer.render(scene, camera);
+</script>
+</body>
+</html>
