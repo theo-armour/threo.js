@@ -8,7 +8,7 @@
 <script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
 <script type="text/javascript">
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 20);
+  var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 20);
   camera.position = {x: 1, y: 5, z: 3};
 
   var i, cube;
@@ -27,7 +27,8 @@
 
 	var r = 0;
   function loop() {
-    camera.position = {x: 1 * Math.cos(r), y: 5, z: 3 * Math.sin(r)};
+    // camera.position = {x: 1 * Math.cos(r), y: 5, z: 3 * Math.sin(r)};
+    camera.position = {x: Math.cos(r), y: 0, z: 2 + 3 * Math.sin(r)};
     r += 0.01;
     for (var i = 0; i < 200; i++) {
       scene.objects[i].rotation.x += 0.02;
@@ -36,7 +37,7 @@
     renderer.render(scene, camera);
   }
 
-  setInterval(loop, 17);
+  setInterval(loop, 30);
 
 </script>
 </body>

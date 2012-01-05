@@ -9,8 +9,8 @@
   
   var scene = new THREE.Scene();
   
-  var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 20);	
-  camera.position = {x: 1, y: 5, z: 3};
+  var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 200);	
+  camera.position.set( 10, 0, 0);
   
   var i, cube;
   var geometry = new THREE.CubeGeometry(1, 1, 1);
@@ -29,7 +29,7 @@
 	
 	var delta = 0;
   function loop() {
-    camera.position = {x: Math.cos(delta), y: 5, z: 3 * Math.sin(delta)};
+    camera.position = {x: Math.cos(delta), y: 0, z: 5 + 4 * Math.sin(delta)};
     delta += 0.005;
     for (i = 0; i < 200; i ++ ) {
       scene.objects[i].rotation.x += 0.03;

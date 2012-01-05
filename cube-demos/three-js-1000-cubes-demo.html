@@ -9,23 +9,23 @@
 	
 	var scene = new THREE.Scene();
 	
-	var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 0.1, 50);	
+	var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 50);	
 	camera.position = {x: 0, y: 0, z: 10};
 
 	var ambient = new THREE.AmbientLight( 0x101010 );
-	scene.addLight( ambient );
+	scene.add( ambient );
 
 	var directionalLight = new THREE.DirectionalLight( 0xffffff );
 	directionalLight.position = {x: 1, y: 1, z: 2};
 	// directionalLight.position.normalize();
-	scene.addLight(directionalLight);
+	scene.add(directionalLight);
 
 	var pointLight = new THREE.PointLight( 0xffffff );
 	pointLight.position = {x: 1, y: 1, z: 2};
-	scene.addLight(pointLight);
+	scene.add(pointLight);
 
   var i, j, k, cube;
-  var geometry = new THREE.Cube(2, 2, 2);
+  var geometry = new THREE.CubeGeometry(2, 2, 2);
   var material = new THREE.MeshPhongMaterial({color: 0xaa0000, opacity: 0.3, specular: 0x555555, shininess: 30});
   // var material = new THREE.MeshBasicMaterial({color: 0xaa0000, opacity: 0.9});
 	for (i = -15; i < 15; i += 3 ) {
@@ -33,7 +33,7 @@
 	    for (k = -15; k < 15; k += 3 ) {
 		    cube = new THREE.Mesh(geometry, material);
         cube.position = {x: i, y: j, z: k};		  
-        scene.addObject(cube);
+        scene.add(cube);
 		  }
     }	
   }
@@ -48,13 +48,13 @@
 	  camera.position = {x: Math.cos(delta), y: 5, z: 3 * Math.sin(delta) };
 	  delta += 0.01;
 	  for ( var i = 0; i < 1000; i++ ) {  
-      scene.objects[i].rotation.x += 0.2 * Math.random();  // how to do += in JavaScript object notation?
-		  scene.objects[i].rotation.z += 0.05;
+      scene.objects[i].rotation.x += 0.02 * Math.random();  // how to do += in JavaScript object notation?
+		  scene.objects[i].rotation.z += 0.02;
 	  } 
 	  renderer.render( scene, camera );
 	}
 	
-	setInterval(loop, 1000 / 60);	
+	setInterval(loop, 1000 / 10);	
 	
 </script>
 </body>
