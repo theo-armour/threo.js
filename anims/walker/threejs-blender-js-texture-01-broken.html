@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../three.js/build/Three.js"></script>
+<script src="../../three.js/examples/js/Detector.js"></script>
+<script src="../../three.js/examples/js/Stats.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+	// Setup the display
+	document.body.style.font = '12px monospace';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var camera, scene, renderer, stats;
+    var geometry, material, mesh;
+	
+	var mouseX = 0, mouseY = 0;
+	var windowHalfX = window.innerWidth / 2;
+	var windowHalfY = window.innerHeight / 2;
+	
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+    init();
+    animate();
+
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.set( 150, 140, 200);
+        scene.add( camera );
+		
+		scene.add( new THREE.AmbientLight( 0xffffff ) );  // does not seem to add much
+		
+		light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 1, 1, 1 ).normalize();
+		scene.add( light );		
+		
+		controls = new THREE.TrackballControls( camera );
+		controls.target.set( 0, 100, 0 );
+
+		controls.rotateSpeed = 1.0;
+		controls.zoomSpeed = 1.2;
+		controls.panSpeed = 0.8;
+
+		controls.noZoom = false;
+		controls.noPan = false;
+
+		controls.staticMoving = true;
+		controls.dynamicDampingFactor = 0.15;
+
+		controls.keys = [ 65, 83, 68 ];
+		
+		material = new THREE.MeshNormalMaterial( { wireframe: true } );
+		geometry = new THREE.PlaneGeometry( 1000, 1000, 10, 10 );
+		
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(0,-50,0);
+		mesh.rotation.x = Math.PI / 2;
+		scene.add( mesh );
+		
+		geometry = new THREE.CubeGeometry( 100, 100, 100 );
+		mesh = new THREE.Mesh( geometry, material );
+        scene.add( mesh );
+		
+		loader = new THREE.JSONLoader();
+				loader.load( 'walkingCycle.js', function ( geometry ) {
+				// transparency seems to work
+				// Remember to set material type Lambert/phong/Basic in Blender
+
+					// not work:
+					//material = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('water.jpg'), overdraw: true });
+					//mesh = new THREE.Mesh( geometry, material );
+					
+					// works:
+					// material = new THREE.MeshNormalMaterial( { overdraw: true } );
+					
+					// needs light:
+					//material = new THREE.MeshFaceMaterial(  );
+					
+					material = new THREE.MeshFaceMaterial();
+					
+					mesh = new THREE.Mesh( geometry, material );
+					
+					mesh.scale.set(29, 20, 20);	
+					scene.add( mesh );
+
+				} );
+		
+		/*
+		geometry = new THREE.Axes();
+		geometry.position.set( 200, 0, -200 );
+		geometry.scale.x = geometry.scale.y = geometry.scale.z = 0.5;
+        scene.add( geometry );		
+		*/
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+        renderer = new THREE.WebGLRenderer( );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+    }
+	
+	function onDocumentMouseMove(event) {
+		mouseX = ( event.clientX - windowHalfX ) * 2;
+		mouseY = ( event.clientY - windowHalfY ) * 2;
+	}
+
+function updateMorph( morph ) {
+
+				newTime = new Date().getTime();
+				delta = newTime - morph.oldTime;
+				morph.oldTime = newTime;
+
+				// Alternate morph targets
+
+				var frameTime = morph.duration / morph.mesh.geometry.morphTargets.length;
+
+				//var time = ( new Date().getTime() ) % morph.duration;
+
+				morph.time += morph.direction * delta;
+
+				if ( morph.mirroredLoop ) {
+
+					if ( morph.time > morph.duration || morph.time < 0 ) {
+
+						morph.direction *= -1;
+
+						if ( morph.time > morph.duration ) {
+
+							morph.time = morph.duration;
+							morph.directionBackwards = true;
+
+						}
+
+						if ( morph.time < 0 ) {
+
+							morph.time = 0;
+							morph.directionBackwards = false;
+
+						}
+
+					}
+
+				} else {
+
+					morph.time = morph.time % morph.duration;
+
+				}
+
+				var keyframe = clamp( Math.floor( morph.time / frameTime ), 0, morph.mesh.geometry.morphTargets.length - 1 );
+
+				var mesh = morph.mesh;
+
+				if ( keyframe != morph.currentKeyframe ) {
+
+					mesh.morphTargetInfluences[ morph.lastKeyframe ] = 0;
+					mesh.morphTargetInfluences[ morph.currentKeyframe ] = 1;
+
+					mesh.morphTargetInfluences[ keyframe ] = 0;
+
+					morph.lastKeyframe = morph.currentKeyframe;
+					morph.currentKeyframe = keyframe;
+
+				}
+
+				var mix = ( morph.time % frameTime ) / frameTime;
+
+				if ( morph.directionBackwards ) {
+
+					mix = 1 - mix;
+
+				}
+
+				mesh.morphTargetInfluences[ morph.currentKeyframe ] = mix;
+				mesh.morphTargetInfluences[ morph.lastKeyframe ] = 1 - mix;
+
+				mesh.position.x += morph.speed * delta;
+
+				if ( mesh.position.x  > 2000 )  {
+
+					mesh.position.x = -1000 - Math.random() * 500;
+
+				}
+
+			}	
+
+    function animate() {
+        requestAnimationFrame( animate );
+        render();
+		stats.update();
+    }
+
+    function render() {
+		//camera.position.x += ( mouseX - camera.position.x ) * 0.2;
+		//camera.position.y += ( - mouseY - camera.position.y ) * 0.25;
+		//camera.lookAt( scene.position );
+		updateMorph( mesh );
+		controls.update();
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>

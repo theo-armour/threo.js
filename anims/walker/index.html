@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>three.js - blender - json - anims</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<body>
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Detector.js"></script>
+
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+	
+	var container;
+	var camera, scene, renderer, stats;
+	var clock = new THREE.Clock();
+	var morphs = [];
+	var texture;
+	
+	init();
+	animate();	
+	
+	function init() {
+		scene = new THREE.Scene();
+		scene.position.set(0, 1.5, 0);
+		scene.fog = new THREE.FogExp2( 0x000000, 0.035 );
+		camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
+		scene.add( camera );
+		
+		var geometry = new THREE.PlaneGeometry( 100, 100, 50, 50 );
+		var material = new THREE.MeshNormalMaterial( { wireframe: true } );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.rotation.x = Math.PI / 2;
+		
+		texture	= THREE.ImageUtils.loadTexture( "water.jpg" );
+		texture.wrapT = THREE.RepeatWrapping;
+		// var planeMaterial = new THREE.MeshLambertMaterial({color : 0xFFdd99, map : texture});
+		var planeMaterial = new THREE.MeshPhongMaterial( { color: 0xffdd99, map : texture } );
+		THREE.ColorUtils.adjustHSV( planeMaterial.color, 0, 0, 0.9 );
+		planeMaterial.ambient = planeMaterial.color;
+				
+		var geometry = new THREE.CubeGeometry( 100, 10, 100 );
+		mesh = new THREE.Mesh( geometry, planeMaterial );
+		mesh.position.y = -5;
+		mesh.castShadow = false;
+		mesh.receiveShadow = true;
+		scene.add( mesh );
+		
+		geometry = new THREE.CubeGeometry( 1, 1, 1 );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.castShadow = true;
+		mesh.position.set(3, 5, 9);
+        scene.add( mesh );
+		
+		var loader = new THREE.JSONLoader();
+		loader.load( "walkingCycle.js", function ( geometry ) {
+			material = geometry.materials[ 0 ];
+			material.morphTargets = true;
+			material.color.setHex( 0xffaaaa ); // brightens them a bit
+			material.ambient.setHex( 0x222222 );
+			var faceMaterial = new THREE.MeshFaceMaterial();
+			for ( var i = 0; i < 3; i ++ ) {
+				morph = new THREE.MorphAnimMesh( geometry, faceMaterial );
+				// one second duration
+				morph.duration = 1000;
+				// random animation offset
+				morph.time = 1000 * Math.random();
+				morph.position.set( 2 * i, 0, 2 * i );
+				morph.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
+				morph.castShadow = true;
+				morph.matrixAutoUpdate = false;
+				morph.updateMatrix();
+				scene.add( morph );
+				morphs.push( morph );
+			}
+		} );
+
+		var light = new THREE.SpotLight( 0xffffff );
+		light.position.set( 0, 15, 10 );
+		light.target.position.set( 0, 0, 0 );
+		light.castShadow = true;
+		light.shadowCameraNear = 1;
+		light.shadowCameraFar = camera.far;
+		light.shadowCameraFov = 65;
+		//light.shadowCameraVisible = true;
+		light.shadowBias = 0.0001;
+		light.shadowDarkness = 0.5;
+		light.shadowMapWidth = 2048;
+		light.shadowMapHeight = 1024;
+		scene.add( light );
+	
+		scene.add( new THREE.AmbientLight( 0xbbbbbb ) );
+		pointLight = new THREE.PointLight( 0xff4400, 5, 30 );
+		pointLight.position.set( 5, 0, 0 );
+		scene.add( pointLight );
+		
+		renderer = new THREE.WebGLRenderer({clearColor: 0x000000, clearAlpha: 1, antialias: true});
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		renderer.setClearColor( scene.fog.color, 1 );
+		renderer.autoClear = false;
+		renderer.shadowMapEnabled = true;
+		renderer.shadowMapSoft = true;
+		
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		document.body.appendChild( stats.domElement );
+
+		window.addEventListener( 'resize', onWindowResize, false );
+	}
+	
+	function onWindowResize( event ) {
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+	}
+	
+	function animate() {
+		requestAnimationFrame( animate );
+		// animate morphs
+		var delta = clock.getDelta();
+		if ( morphs.length ) {
+			for ( var i = 0; i < morphs.length; i ++ )
+				morphs[ i ].updateAnimation( 1000 * delta );
+		}
+		render();
+		stats.update();
+	}
+	
+	function render() {
+		texture.offset.y	+= 0.002;
+		texture.offset.y	%= 1;
+		texture.needsUpdate	= true;
+		var timer = Date.now() * 0.0002;
+		camera.position.x = Math.cos( timer ) * 10;
+		camera.position.y = 10;
+		camera.position.z = Math.sin( timer ) * 10;
+		camera.lookAt( scene.position );
+		renderer.render( scene, camera );
+	}
+</script>
+</body>
+</html>
