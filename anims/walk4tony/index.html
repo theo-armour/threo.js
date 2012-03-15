@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Walk 4 Tony</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
+</head>
+<body>
+<script>
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var camera, scene, renderer, stats;
+    var geometry, material, mesh;
+	var clock = new THREE.Clock();
+
+    init();
+    
+	function callBack(geometry) {
+			material = geometry.materials[ 0 ];
+			material.morphTargets = true;		
+			mesh = new THREE.MorphAnimMesh( geometry, new THREE.MeshFaceMaterial() );
+			mesh.duration = 1000;
+			mesh.castShadow = true;
+			scene.add( mesh );
+			animate();
+	}		
+
+    function init() {
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.set(-5, 12, 11);
+		controls = new THREE.TrackballControls( camera );
+        scene.add( camera );
+		
+		var light = new THREE.SpotLight( 0xffffff );
+		light.position.set( 0, 15, 10 );
+		light.target.position.set( 0, 0, 0 );
+		light.castShadow = true;
+		light.shadowCameraNear = 1;
+		light.shadowDarkness = 0.5;
+		//light.shadowCameraFar = camera.far;
+		//light.shadowCameraFov = 65;
+		//light.shadowCameraVisible = true;
+		//light.shadowBias = 0.0001;
+		//light.shadowMapWidth = 2048;
+		//light.shadowMapHeight = 1024;
+		scene.add( light );
+		
+		material = new THREE.MeshPhongMaterial( { color: 0x888888 } );
+		material.ambient = material.color;
+		geometry = new THREE.CubeGeometry( 20, 10, 20 );
+		
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(0, -5, 0);
+		mesh.castShadow = false;
+		mesh.receiveShadow = true;
+		scene.add( mesh );
+
+		loader = new THREE.JSONLoader();
+		loader.load( 'walkingCycleSmall.js', callBack );
+
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.shadowMapEnabled = true;
+		renderer.shadowMapSoft = true;
+        document.body.appendChild( renderer.domElement );
+    }
+	
+    function animate() {
+        requestAnimationFrame( animate );
+		mesh.updateAnimation( 1000 * clock.getDelta() );		
+        render();
+		stats.update();
+    }
+
+    function render() {		
+		controls.update( clock.getDelta() );
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>
