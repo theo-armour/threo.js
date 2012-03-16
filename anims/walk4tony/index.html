@@ -12,20 +12,20 @@
 	document.body.style.margin = '0';
 	document.body.style.overflow = 'hidden';
 
-    var camera, scene, renderer, stats;
+    var scene, camera, light, stats, renderer;
     var geometry, material, mesh;
 	var clock = new THREE.Clock();
 
     init();
     
 	function callBack(geometry) {
-			material = geometry.materials[ 0 ];
-			material.morphTargets = true;		
-			mesh = new THREE.MorphAnimMesh( geometry, new THREE.MeshFaceMaterial() );
-			mesh.duration = 1000;
-			mesh.castShadow = true;
-			scene.add( mesh );
-			animate();
+		material = geometry.materials[ 0 ];
+		material.morphTargets = true;		
+		mesh = new THREE.MorphAnimMesh( geometry, new THREE.MeshFaceMaterial() );
+		mesh.duration = 1000;
+		mesh.castShadow = true;
+		scene.add( mesh );
+		animate();
 	}		
 
     function init() {
@@ -36,7 +36,7 @@
 		controls = new THREE.TrackballControls( camera );
         scene.add( camera );
 		
-		var light = new THREE.SpotLight( 0xffffff );
+		light = new THREE.SpotLight( 0xffffff );
 		light.position.set( 0, 15, 10 );
 		light.target.position.set( 0, 0, 0 );
 		light.castShadow = true;
