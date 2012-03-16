@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Walker 4 Tony</title>
+<meta charset="utf-8">
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Detector.js"></script>
+</head>
+<body>
+<script>
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+	document.body.style.textAlign = 'center';
+	
+	info = document.createElement( 'div' );
+	var s = '';
+	for (var i = 0; i < 5 ; i++ ) {
+		s += 'lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?<br><br>';
+	}
+
+	info.innerHTML = s;
+	info.style.position = 'absolute';
+	info.style.margin = '50px 35% 200px 35%';
+	document.body.style.textAlign = 'left';
+	info.style.top = '100px';
+	document.body.appendChild( info );
+
+    var scene, camera, stats, renderer;
+    var light, geometry, material, mesh, mesh2;
+	var clock = new THREE.Clock();
+
+    init();
+    
+	function callBack(geometry) {
+		material = geometry.materials[ 0 ];
+		material.morphTargets = true;
+		material = new THREE.MeshFaceMaterial( );
+		mesh = new THREE.MorphAnimMesh( geometry, material  );
+		mesh.duration = 1500;
+		scene.add( mesh );
+		
+		material = new THREE.MeshBasicMaterial( { color: 0x444444, opacity: 0.8, morphTargets: true } );
+		material.shading = THREE.FlatShading;
+		mesh2 = new THREE.MorphAnimMesh( geometry, material  );
+		mesh2.scale.set(1, 0.001, 1.5);
+		mesh2.duration = 1500;
+		scene.add( mesh2 );		
+		
+		animate();
+	}		
+
+    function init() {
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.set(-5, 12, 11);
+		controls = new THREE.TrackballControls( camera );
+        scene.add( camera );
+
+		loader = new THREE.JSONLoader();
+		loader.load( 'walkingCycleSmall.js', callBack );
+
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
+		
+		pointLight = new THREE.PointLight( 0xff4400, 5, 30 );
+		pointLight.position.set( -3, 8, 3 );
+		scene.add( pointLight );
+		
+		renderer = new THREE.WebGLRenderer({ antialias: true});
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		renderer.autoClear = true;
+    }
+	var theta = 0;
+	var rad = 9;
+    function animate() {
+        requestAnimationFrame( animate );
+		
+		theta += 0.01;
+		mesh.rotation.y = -theta;
+		mesh.position.x = rad * Math.cos(theta);
+		mesh.position.z = rad * Math.sin(theta);
+		mesh2.rotation.y = -theta;
+		mesh2.position.x = rad * Math.cos(theta);
+		mesh2.position.z = rad * Math.sin(theta);
+		
+		var delta = clock.getDelta();
+		mesh.updateAnimation( 1000 * delta );
+		mesh2.updateAnimation( 1000 * delta );		
+        render();
+		stats.update();
+    }
+
+    function render() {		
+		controls.update( clock.getDelta() );
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>

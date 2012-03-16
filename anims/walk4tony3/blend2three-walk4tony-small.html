@@ -38,7 +38,7 @@
 		material.morphTargets = true;
 		//material.color.setHex( 0xffaaaa ); // brightens them a bit
 		//material.ambient.setHex( 0x222222 );
-		var faceMaterial = new THREE.MeshFaceMaterial();
+		var faceMaterial = new THREE.MeshNormalMaterial();
 		
 		mesh = new THREE.MorphAnimMesh( geometry, faceMaterial  );
 		mesh.duration = 1500;
@@ -51,7 +51,7 @@
 		mesh2.scale.set(1, 0.001, 1.5);
 		mesh2.duration = 1500;
 		// mesh.castShadow = true;
-		scene.add( mesh2 );		
+		// scene.add( mesh2 );		
 		
 		animate();
 	}		
@@ -63,7 +63,7 @@
         camera.position.set(-5, 12, 11);
 		controls = new THREE.TrackballControls( camera );
         scene.add( camera );
-		
+		/*
 		var light = new THREE.SpotLight( 0xffffff );
 		light.position.set( 0, 15, 10 );
 		light.target.position.set( 0, 0, 0 );
@@ -77,6 +77,7 @@
 		light.shadowMapWidth = 2048;
 		light.shadowMapHeight = 1024;
 		scene.add( light );
+		*/
 		
 		material = new THREE.MeshPhongMaterial( { color: 0x888888 } );
 		material.ambient = material.color;
@@ -102,12 +103,13 @@
 		pointLight.position.set( 5, 0, 0 );
 		scene.add( pointLight );
 		
-		renderer = new THREE.WebGLRenderer({clearColor: 0x000000, clearAlpha: 1, antialias: true});
+		// renderer = new THREE.WebGLRenderer({clearColor: 0x000000, clearAlpha: 1, antialias: true});
+		renderer = new THREE.WebGLRenderer({ antialias: true});
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 		renderer.autoClear = false;
-		renderer.shadowMapEnabled = true;
-		renderer.shadowMapSoft = true;
+		//renderer.shadowMapEnabled = true;
+		//renderer.shadowMapSoft = true;
     }
 	var theta = 0;
 	var rad = 9;
