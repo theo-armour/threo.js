@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title></title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Detector.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	// document.body.style.font = '12px monospace';
+	document.body.style.backgroundColor = '#000';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var scene, camera, stats, renderer;
+    var light, geometry, material, mesh, lightMesh;
+	var clock = new THREE.Clock();
+	var mouseDown = false;
+	var thing1;
+
+    init();
+	
+	function callBack(geometry) {
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(0, -3, 0);
+		scene.add( mesh );
+// console.log(mesh);
+		animate();
+	}	
+	function callBack1(geometry) {
+		thing1 = new THREE.Mesh( geometry, material );
+		thing1.position.set(0, 2, 2);
+		scene.add( thing1 );
+	}	
+	function callBack2(geometry) {
+		thing2 = new THREE.Mesh( geometry, material );
+		thing2.position.set(15, -2, 2);
+		scene.add( thing2 );
+	}
+
+	function callBack3(geometry) {
+		thing3 = new THREE.Mesh( geometry, material );
+		thing3.position.set(-15, 1, 1.5);
+		scene.add( thing3 );
+	}	
+
+	function callBack4(geometry) {
+		thing4 = new THREE.Mesh( geometry, material );
+		thing4.position.set(10, 0, -1);
+		scene.add( thing4 );
+	}  
+
+	function callBack5(geometry) {
+		thing5 = new THREE.Mesh( geometry, material );
+		thing5.position.set(-8, -2, -1);
+		scene.add( thing5 );
+	}
+	
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+		scene.fog = new THREE.Fog( 0x222200, 1, 8);
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.set(-5, -2, 5);
+		// camera.lookAt(0, 9, 0);
+		controls = new THREE.TrackballControls( camera );
+		controls.dynamicDampingFactor = 0.2;
+        scene.add( camera );
+	
+		// material = new THREE.MeshPhongMaterial( { ambient: 0x888888, color: 0x888888, specular: 0x888888, shininess: 50, shading: THREE.SmoothShading }  );
+		material = new THREE.MeshPhongMaterial( { ambient: 0xff0000, color: 0x0000ff, specular: 0x00ff00, shininess: 50, opacity: 0.8 }  );
+		
+		geometry = new THREE.PlaneGeometry( 30, 30, 1, 1 );
+
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.doubleSided = true;
+		mesh.rotation.x = - Math.PI / 2;
+		mesh.position.set(0, 4, 0)
+		scene.add( mesh );
+		
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.doubleSided = true;
+		mesh.rotation.x = - Math.PI / 2;
+		mesh.position.set(0, -4, 0)
+		scene.add( mesh );
+
+		loader = new THREE.JSONLoader();
+		loader.load( 'text02.js', callBack );
+		
+		loader.load( 'thing1.js', callBack1 );
+
+		loader.load( 'thing2.js', callBack2 );
+
+		loader.load( 'thing3.js', callBack3 );
+		
+		loader.load( 'thing4.js', callBack4 );
+
+		loader.load( 'thing5.js', callBack5 );		
+		
+		light = new THREE.AmbientLight( 0xff0000 );
+		scene.add( light );		
+		
+		lightMesh = new THREE.Mesh( new THREE.SphereGeometry( 1, 8, 8 ), material );
+		scene.add( lightMesh );		
+
+		light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 0, 0, 100 ).normalize();
+		light.target = lightMesh;
+		scene.add( light );	
+		
+		light = new THREE.PointLight( 0xffffff, 10);
+		light.position.set( 0, 0, 10 );
+		scene.add( light );			
+		
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+        renderer = new THREE.WebGLRenderer( {clearColor: 0x000000, clearAlpha: 1, antialias: true } );
+		renderer.setClearColor( scene.fog.color, 1 );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+		
+		document.addEventListener( 'mousedown', onMouseDown, false );
+		document.addEventListener( 'mouseup', onMouseUp, false );
+    }
+	
+	function onMouseDown ( event ) {
+		mouseDown = true;
+console.log(clock.elapsedTime);		
+	};
+
+	function onMouseUp ( event ) {
+		mouseDown = false;
+	};	
+	
+    function animate() {
+        requestAnimationFrame( animate );
+        render();
+		stats.update();
+    }
+
+    function render() {	
+	
+		var tim = clock.elapsedTime;
+		lightMesh.position.set( Math.cos( tim ) * 3 + 5, Math.sin( tim ) * 2 + 2, 8);
+		light.position = lightMesh.position;
+		
+		thing1.position.x -= 0.1;
+		if (thing1.position.x < -20) { thing1.position.x = 20;}
+		
+		thing2.position.x -= 0.1;
+		if (thing2.position.x < -20) { thing2.position.x = 20;}		
+
+		thing3.position.x -= 0.1;
+		if (thing3.position.x < -20) { thing3.position.x = 20;}
+		
+		thing4.position.x -= 0.1;
+		if (thing4.position.x < -20) { thing4.position.x = 20;}		
+
+		thing5.position.x -= 0.1;
+		if (thing5.position.x < -20) { thing5.position.x = 20;}
+		
+		if (mouseDown) {
+		} else {
+			var xx = 0.01 * Math.cos( tim * 0.1);
+			camera.position.x += xx;
+			camera.position.y += 0.005 * Math.sin( tim * 0.1);
+// console.log( xx, camera.position.x );			
+			// camera.position.set( Math.cos( tim * 0.2) * 3, Math.sin( tim * 0.2) * 2 - 2, 6);
+		}
+		controls.update( clock.getDelta() );
+        renderer.render( scene, camera );
+		
+    }
+</script>
+</body>
+</html>
