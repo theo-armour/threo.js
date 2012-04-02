@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>peeps - Gus</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../../three.js/build/Three.js"></script>
+<script src="../../../three.js/examples/js/Detector.js"></script>
+<script src="../../../three.js/examples/js/Stats.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	// document.body.style.font = '12px monospace';
+	document.body.style.backgroundColor = '#000';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var scene, camera, stats, renderer;
+    var geometry, material, mesh;
+	var clock = new THREE.Clock();
+	var deltaDistanceX, deltaDistanceZ;
+    init();
+    
+	function callBack(geometry) {
+	
+		material = new THREE.MeshFaceMaterial( );
+	
+		material = geometry.materials[ 0 ];
+		material.morphTargets = true;
+		material = new THREE.MeshFaceMaterial( );
+		mesh = new THREE.MorphAnimMesh( geometry, material  );
+		mesh.position.set(0, -8, -100);
+		mesh.rotation.y = 3.4;
+		mesh.duration = 1000;
+		// mesh.mirroredLoop = true;
+		//this.direction = -1;
+		//this.directionBackwards = true;
+		//mesh.setFrameRange( 3, 12 );
+		mesh.time = 0;
+		scene.add( mesh );
+		mesh.castShadow = true;
+		//mesh.playAnimation;
+		var tmp = mesh.geometry.morphTargets;
+		deltaDistanceZ = tmp[tmp.length - 1].vertices[0].position.z - tmp[0].vertices[0].position.z;
+		if (deltaDistanceZ < 0) {deltaDistanceZ = -deltaDistanceZ};
+		
+		deltaDistanceX = tmp[tmp.length - 1].vertices[0].position.x - tmp[0].vertices[0].position.x;
+		// if (deltaDistanceX < 0) {deltaDistanceZ = -deltaDistanceZ};
+		console.log(mesh, deltaDistanceX, deltaDistanceZ);
+		//material = new THREE.MeshNormalMaterial();
+		//mesh = new THREE.Mesh( geometry, material );
+
+		animate();
+	}	
+
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+		scene.fog = new THREE.Fog( 0x000000, 1, 100 );
+		// scene.position.set(0, 0, 0)
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.set(-10, 5, 10);
+		controls = new THREE.TrackballControls( camera );
+		controls.dynamicDampingFactor = 0.2;
+        scene.add( camera );
+
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
+		
+		pointLight = new THREE.PointLight( 0xffffff, 5, 200 );
+		pointLight.position.set( -3, 8, 3 );
+		// pointLight.castShadow = true;
+		scene.add( pointLight );
+		
+		light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 0, 100, 100 ).normalize();
+		scene.add( light );		
+		
+		var light = new THREE.SpotLight( 0xffffff );
+		light.position.set( 0, 35, 20 );
+		light.target.position.set( 0, 0, 0 );
+		light.castShadow = true;
+		light.shadowCameraNear = 1;
+		light.shadowCameraFar = 100; // camera.far;
+		light.shadowCameraFov = 85;
+		//light.shadowCameraVisible = true;
+		light.shadowBias = 0.0001;
+		light.shadowDarkness = 0.5;
+		light.shadowMapWidth = 2048;
+		light.shadowMapHeight = 1024;
+		scene.add( light );
+		
+		material = new THREE.MeshPhongMaterial( { wireframe: false } );
+		
+		var texture	= THREE.ImageUtils.loadTexture( "../water.jpg" );
+		texture.wrapT = THREE.RepeatWrapping;
+		// var planeMaterial = new THREE.MeshLambertMaterial({color : 0xFFdd99, map : texture});
+		var planeMaterial = new THREE.MeshPhongMaterial( { color: 0x666611, map : texture } );
+		// geometry = new THREE.PlaneGeometry( 200, 200, 10, 10 );
+		geometry = new THREE.CubeGeometry( 200, 10, 200 );
+		mesh = new THREE.Mesh( geometry, planeMaterial );
+		mesh.position.set(0, -11.9, 0);
+		// mesh.rotation.x = Math.PI / 2;
+		mesh.castShadow = false;
+		mesh.receiveShadow = true;
+		
+		scene.add( mesh );
+		
+		//geometry = new THREE.SphereGeometry( 25, 20, 20 );
+		//material = new THREE.MeshNormalMaterial( {shading: THREE.SmoothShading } );
+		//mesh = new THREE.Mesh( geometry, material );
+		//mesh.position.set(70, 0, 0);
+		// scene.add( mesh )
+
+		loader = new THREE.JSONLoader();
+		loader.load( 'gus.js', callBack );		
+
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+        //renderer = new THREE.WebGLRenderer( {antialias: true } );
+        //renderer.setSize( window.innerWidth, window.innerHeight );
+        //document.body.appendChild( renderer.domElement );
+		
+		renderer = new THREE.WebGLRenderer({clearColor: 0x000000, clearAlpha: 1, antialias: true});
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		renderer.setClearColor( scene.fog.color, 1 );
+		renderer.autoClear = false;
+		renderer.shadowMapEnabled = true;
+		renderer.shadowMapSoft = true;
+		
+    }
+	
+	var startPosition = mesh.position;
+	var previousKeyframe = 1;
+    function animate() {
+        requestAnimationFrame( animate );
+		var delta = clock.getDelta();
+		mesh.updateAnimation( 300 * delta );
+		// console.log(mesh.currentKeyframe);
+		if (mesh.currentKeyframe === mesh.endKeyframe) {
+			mesh.position.y = 100;
+			if (mesh.currentKeyframe != previousKeyframe) {
+				mesh.position.x += 7; // deltaDistanceX;
+				mesh.position.z += deltaDistanceZ;
+				previousKeyframe = mesh.endKeyframe;
+			}
+			// console.log(mesh.position.z);
+			if (mesh.position.z > 30) {
+				mesh.position.x = 0;
+				mesh.position.z = -80
+			}	
+		}
+		if (mesh.currentKeyframe === 1) {
+			mesh.position.y = -8;
+			previousKeyframe = 1;
+		}
+        render();
+		stats.update();
+    }
+
+    function render() {		
+		controls.update( clock.getDelta() );
+		camera.lookAt( scene.position);
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>

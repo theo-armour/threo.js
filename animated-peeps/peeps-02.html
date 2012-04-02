@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>peeps</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../three.js/build/Three.js"></script>
+<script src="../../three.js/examples/js/Detector.js"></script>
+<script src="../../three.js/examples/js/Stats.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	// document.body.style.font = '12px monospace';
+	document.body.style.backgroundColor = '#000';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var scene, camera, light, stats, renderer;
+    var geometry, material, mesh;
+	var clock = new THREE.Clock();
+	var peeps = ['chuck','eddy','mary','gus','pamela','kurt','peggy','nigel'];
+	var pointLight;
+	
+    init();
+    
+	function callBack(geometry) {
+	
+		material = new THREE.MeshFaceMaterial( );
+		
+		material = geometry.materials[ 0 ];
+		material.morphTargets = true;
+		material = new THREE.MeshFaceMaterial( );
+		
+		mesh = new THREE.MorphAnimMesh( geometry, material  );
+		mesh.position.set(0, 0, 0);
+		mesh.duration = 2000;
+		scene.add( mesh );
+		
+		//material = new THREE.MeshNormalMaterial();
+		//mesh = new THREE.Mesh( geometry, material );
+animate();
+	}	
+
+	
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+		// scene.fog = new THREE.Fog( 0x000000, 1, 100 );
+		scene.position.set(0, 0, 0)
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 200 );
+        camera.position.set(-30, 5, 80);
+		controls = new THREE.TrackballControls( camera );
+		controls.dynamicDampingFactor = 0.2;
+        scene.add( camera );
+
+		scene.add( new THREE.AmbientLight( 0x888888) );
+		
+		pointLight = new THREE.PointLight( 0xffffff, 2);
+		pointLight.position.set( -10, 10, 10 );
+		scene.add( pointLight );
+
+		light = new THREE.SpotLight( 0xffffff );
+		light.castShadow = true;
+		light.shadowCameraNear = camera.near;
+		light.shadowCameraFar = camera.far;
+		light.shadowCameraFov = 85;
+		light.shadowCameraVisible = true;
+		light.shadowBias = 0.0001;
+		light.shadowDarkness = 0.5;
+		light.shadowMapWidth = 512;
+		light.shadowMapHeight = 512;
+		light.onlyShadow = true;
+		scene.add( light );		
+		
+		var texture	= THREE.ImageUtils.loadTexture( "water.jpg" );
+		texture.wrapT = THREE.RepeatWrapping;
+		material = new THREE.MeshPhongMaterial( { color: 0x666611, map : texture } );
+		geometry = new THREE.CubeGeometry( 200, 1, 200 );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(0, -0.5, 0);
+		// mesh.castShadow = true;
+		mesh.receiveShadow = true;
+		scene.add( mesh );
+		
+		geometry = new THREE.CubeGeometry( 10, 15, 60 );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(20, 7.5, 0);
+		mesh.castShadow = true;
+		mesh.receiveShadow = true;
+		scene.add( mesh );	
+
+		loader = new THREE.JSONLoader();
+		loader.load( peeps[0] + '/' + peeps[0] + '.js', callBack );		
+
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+		renderer = new THREE.WebGLRenderer({clearColor: 0x000000, clearAlpha: 1, antialias: true});
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		// renderer.setClearColor( scene.fog.color, 1 );
+		renderer.autoClear = false;
+		renderer.shadowMapEnabled = true;
+		renderer.shadowMapSoft = true;
+		
+    }
+	
+    function animate() {
+        requestAnimationFrame( animate );
+		var delta = clock.getDelta();
+		mesh.updateAnimation( 500 * delta );	
+		light.position.z += 0.2;
+		pointLight.position.z += 0.2;
+		if (light.position.z > 50) {
+			light.position.z = -50;
+			pointLight.position.z = -50;
+		}
+        render();
+		stats.update();
+    }
+
+    function render() {		
+		controls.update( clock.getDelta() );
+		camera.lookAt( scene.position);
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>

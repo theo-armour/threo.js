@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>peeps</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../three.js/build/Three.js"></script>
+<script src="../../three.js/examples/js/Detector.js"></script>
+<script src="../../three.js/examples/js/Stats.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	// document.body.style.font = '12px monospace';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var scene, camera, stats, renderer;
+    var geometry, material, mesh;
+	var clock = new THREE.Clock();
+	var peeps = ['chuck','eddy','mary','gus','pamela','kurt','peggy','nigel'];
+
+    init();
+    
+	function callBack(geometry) {
+	
+		material = new THREE.MeshFaceMaterial( );
+		
+		material = geometry.materials[ 0 ];
+		material.morphTargets = true;
+		material = new THREE.MeshFaceMaterial( );
+		
+		mesh = new THREE.MorphAnimMesh( geometry, material  );
+		mesh.position.set(0, -30, 0);
+		mesh.duration = 2000;
+		scene.add( mesh );
+		
+		//material = new THREE.MeshNormalMaterial();
+		//mesh = new THREE.Mesh( geometry, material );
+
+		animate();
+	}	
+
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+		scene.position.set(0, 0, 0)
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.set(-30, 0, 80);
+		controls = new THREE.TrackballControls( camera );
+		controls.dynamicDampingFactor = 0.2;
+        scene.add( camera );
+
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
+		
+		pointLight = new THREE.PointLight( 0xffffff, 5, 30 );
+		pointLight.position.set( -3, 8, 3 );
+		scene.add( pointLight );
+		
+		light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 100, 100, 100 ).normalize();
+		scene.add( light );		
+		
+		material = new THREE.MeshNormalMaterial( { wireframe: true } );
+		geometry = new THREE.PlaneGeometry( 200, 200, 10, 10 );
+		
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(0, -45.5, 0);
+		// mesh.rotation.x = Math.PI / 2;
+		scene.add( mesh );
+		
+		geometry = new THREE.SphereGeometry( 25, 20, 20 );
+		material = new THREE.MeshNormalMaterial( {shading: THREE.SmoothShading } );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(70, 0, 0);
+		// scene.add( mesh )
+
+		loader = new THREE.JSONLoader();
+		loader.load( peeps[0] + '/' + peeps[0] + '.js', callBack );		
+
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+        renderer = new THREE.WebGLRenderer( {antialias: true } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+		
+    }
+	
+    function animate() {
+        requestAnimationFrame( animate );
+		var delta = clock.getDelta();
+		mesh.updateAnimation( 500 * delta );		
+        render();
+		stats.update();
+    }
+
+    function render() {		
+		controls.update( clock.getDelta() );
+		camera.lookAt( scene.position);
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>

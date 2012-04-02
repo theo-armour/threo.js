@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>peeps</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../three.js/build/Three.js"></script>
+<script src="../../three.js/examples/js/Detector.js"></script>
+<script src="../../three.js/examples/js/Stats.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	// document.body.style.font = '12px monospace';
+	document.body.style.backgroundColor = '#000';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+
+    var scene, camera, light, stats, loader, renderer;
+    var geometry, material, mesh;
+	var clock = new THREE.Clock();
+	var peeps = [];
+	var peepsNames = ['chuck','eddy','mary','gus','pamela','kurt','peggy','nigel'];
+	var peepsDeltaX = [];
+	var peepsDeltaZ = [];
+	var peepsCount = 0;
+	var peepOnStage = 0;
+	var pointLight, pointLightPosition;
+	var groundLevel = 0.65;
+	var deltaDistanceX, deltaDistanceZ;
+	var previousKeyframe = 1;
+	var readyForMore = 0;
+	
+	
+    init();
+    
+	function callBack(geometry) {
+		material = new THREE.MeshFaceMaterial( );
+		material = geometry.materials[0];
+		material.morphTargets = true;
+		material = new THREE.MeshFaceMaterial( );
+		
+		mesh = new THREE.MorphAnimMesh( geometry, material  );
+		var tmp = mesh.geometry.morphTargets;
+		var delta = tmp[tmp.length - 1].vertices[0].position.x - tmp[0].vertices[0].position.x;
+		if (delta < 0) {delta = -delta};	
+		peepsDeltaX.push(delta);
+		
+		delta = tmp[tmp.length - 1].vertices[0].position.z - tmp[0].vertices[0].position.z;
+		if (delta < 0) {delta = -delta};
+		peepsDeltaZ.push(delta);
+	
+		
+		mesh.castShadow = true;
+		mesh.position.set(0, 100, -100);
+		//mesh.rotation.y = -2.8;
+		//mesh.duration = 1000;		
+		mesh.duration = 2000;
+		mesh.time = 0;
+		scene.add( mesh );
+		peeps.push( mesh );
+		peepsCount++;
+		if (peepsCount < peepsNames.length) {readyForMore = 1};
+		animate();
+	}	
+
+	
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+		scene.fog = new THREE.Fog( 0x000000, 50, 120 );
+		scene.position.set(0, 0, 0)
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 200 );
+        camera.position.set(-15, groundLevel + 12, 15);
+		controls = new THREE.TrackballControls( camera );
+		controls.dynamicDampingFactor = 0.2;
+        scene.add( camera );
+		
+		
+		scene.add( new THREE.AmbientLight( 0x888888 ) );
+		
+		pointLight = new THREE.PointLight( 0xffffff, 3, 100 );
+		pointLight.position.set( -3, groundLevel + 8, -60 );
+		scene.add( pointLight );
+		
+		light = new THREE.DirectionalLight( 0x333333 );
+		light.position.set( 5, 100, 100 ).normalize();
+		scene.add( light );		
+		
+		var light = new THREE.SpotLight( 0xffffff );
+		light.position.set( 0, 35, 20 );
+		light.target.position.set( 0, 0, 0 );
+		light.castShadow = true;
+		light.shadowCameraNear = 1;
+		light.shadowCameraFar = 100;
+		light.shadowCameraFov = 85;
+		//light.shadowCameraVisible = true;
+		light.shadowBias = 0.0001;
+		light.shadowDarkness = 0.5;
+		light.shadowMapWidth = 2048;
+		light.shadowMapHeight = 1024;
+		scene.add( light );		
+		
+		var texture	= THREE.ImageUtils.loadTexture( "water.jpg" );
+		texture.wrapT = THREE.RepeatWrapping;
+		material = new THREE.MeshPhongMaterial( { color: 0x666611, map : texture } );
+		geometry = new THREE.CubeGeometry( 200, 1, 200 );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(0, groundLevel, 0);
+		// mesh.castShadow = true;
+		mesh.receiveShadow = true;
+		scene.add( mesh );
+		
+		geometry = new THREE.CubeGeometry( 10, 15, 60 );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set(60, groundLevel + 7.5, 0);
+		mesh.castShadow = true;
+		mesh.receiveShadow = true;
+		scene.add( mesh );	
+		
+		// material = new THREE.MeshNormalMaterial();
+		geometry = new THREE.CubeGeometry( 1, 1, 1 );
+		pointLightPosition = new THREE.Mesh( geometry, material );
+		pointLightPosition.position.set( 0, 0, 0);
+		//mesh.castShadow = true;
+		mesh.receiveShadow = true;
+		scene.add( pointLightPosition );			
+
+		loader = new THREE.JSONLoader();
+		loader.load( peepsNames[peepsCount] + '/' + peepsNames[peepsCount] + '.js', callBack );		
+
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement )		
+
+		renderer = new THREE.WebGLRenderer({clearColor: 0x000000, clearAlpha: 1, antialias: true});
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		renderer.setClearColor( scene.fog.color, 1 );
+		renderer.autoClear = false;
+		renderer.shadowMapEnabled = true;
+		renderer.shadowMapSoft = true;
+    }
+	
+    function animate() {
+        requestAnimationFrame( animate );
+		var delta = clock.getDelta();
+		mesh = peeps[peepOnStage];
+		mesh.updateAnimation( 800 * delta );	
+		if (mesh.currentKeyframe === mesh.endKeyframe) {
+			mesh.position.y = 100;
+			// console.log(mesh.position.z);
+			if (mesh.position.z > 30) {
+				if (peepOnStage < peeps.length - 1) {
+					peepOnStage++;
+				} else {
+					peepOnStage = 0;
+				}
+				mesh.position.x = 0;
+				mesh.position.z = -80;
+				pointLight.position.z = -60;	
+			}			
+			if (mesh.currentKeyframe != previousKeyframe) {
+				// mesh.position.x += 15; // deltaDistanceZ;
+				mesh.position.z += peepsDeltaZ[0];
+				previousKeyframe = mesh.endKeyframe;
+			}
+		}
+		if (mesh.currentKeyframe === 1) {
+			mesh.position.y = 0;
+			previousKeyframe = 1;
+		}		
+		pointLight.position.z += 0.4 ;
+		pointLightPosition.position = pointLight.position;
+		
+		if (readyForMore) {
+			readyForMore = 0;
+			loader.load( peepsNames[peepsCount] + '/' + peepsNames[peepsCount] + '.js', callBack );	
+		}
+		
+        render();
+		stats.update();
+		
+    }
+
+    function render() {		
+		controls.update( clock.getDelta() );
+		camera.lookAt( scene.position);
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>
