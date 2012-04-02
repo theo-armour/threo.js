@@ -39,7 +39,6 @@
 	var peepsRotationY = [0, 0, Math.PI, 3.4, -0.1, -2.9, -1.2, 0.3];
 	var peepsCount = 0;
 	var peepOnStage = 0;
-	var pointLight, pointLightPosition;
 	var groundLevel = 0.65;
 	var deltaDistanceX, deltaDistanceZ;
 	var previousKeyframe = 1;
@@ -55,7 +54,7 @@
 		material = new THREE.MeshFaceMaterial( );
 
 		mesh = new THREE.MorphAnimMesh( geometry, material  );
-/*		
+/*	failure at trying to estimate the next position of the the character	
 		var tmp = mesh.geometry.morphTargets;
 		var delta = tmp[tmp.length - 1].vertices[0].position.x - tmp[0].vertices[0].position.x;
 		if (delta < 0) {delta = -delta};	
@@ -94,9 +93,9 @@
 		
 		scene.add( new THREE.AmbientLight( 0x111111 ) );
 		
-		pointLight = new THREE.PointLight( 0xffffff, 3, 200 );
-		pointLight.position.set( -3, 8, 3 );
-		scene.add( pointLight );
+		light = new THREE.PointLight( 0xffffff, 3, 200 );
+		light.position.set( -3, 8, 3 );
+		scene.add( light );
 		
 		light = new THREE.DirectionalLight( 0xffffff );
 		light.position.set( 0, 100, 100 ).normalize();
@@ -146,8 +145,7 @@
 		for (var i = -6; i < 8; i++) {
 			mesh = new THREE.Mesh( geometry, material );
 			mesh.rotation.set(2 * Math.random() - 1, 0.3 * Math.random(), 0.1 * Math.random());
-			mesh.position.set(60, groundLevel + 20, i * 5);
-			
+			mesh.position.set(60, groundLevel + 20, i * 5);	
 			mesh.castShadow = true;
 			mesh.receiveShadow = true;
 			scene.add( mesh );		
@@ -191,7 +189,7 @@
 							mesh.position.set(50 * Math.random() - 25, 0, -50 * Math.random());
 							mesh.rotation.y = 6.2 * Math.random();						
 						}
-						info.innerHTML = txt + 'Cast members: The entire company';
+						info.innerHTML = txt + 'Cast members: The entire company dancing in the street';
 						grandFinale = 1;
 						
 					} else {	
@@ -210,7 +208,7 @@
 			} else if (mesh.currentKeyframe === 1) {			
 				mesh.position.y = 0;
 				previousKeyframe = 1;
-				info.innerHTML = txt + 'Cast member: ' + peepsNames[peepOnStage];
+				info.innerHTML = txt + 'Cast member: ' + peepsNames[peepOnStage] + ' (' + (peepOnStage + 1) + ' of 8)';
 			}
 		} else {
 			for (var i = 0; i < peepsCount; i++) {
