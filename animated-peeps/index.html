@@ -73,7 +73,7 @@
 		peeps.push( mesh );
 		
 		if (peepsCount < peepsNames.length) {readyForMore = 1};
-		info.innerHTML = txt + 'Cast member: ' + peepsNames[peepsCount];
+		info.innerHTML = txt + 'Cast member: ' + peepsNames[peepsCount] + ' is onstage';
 		peepsCount++;
 		animate();
 	}	
@@ -86,7 +86,7 @@
 		scene.position.set(0, 0, 0)
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 200 );
-        camera.position.set(-15, groundLevel + 12, 15);
+        camera.position.set(-15, groundLevel + 15, 15);
 		controls = new THREE.TrackballControls( camera );
 		controls.dynamicDampingFactor = 0.2;
         scene.add( camera );
@@ -186,7 +186,7 @@
 					} else if (peeps.length === peepsNames.length) {
 						for (var i = 0; i < peepsCount; i++) {
 							mesh = peeps[i];
-							mesh.position.set(50 * Math.random() - 25, 0, -50 * Math.random());
+							mesh.position.set(50 * Math.random() - 25, 0, -50 * Math.random() + 10);
 							mesh.rotation.y = 6.2 * Math.random();						
 						}
 						info.innerHTML = txt + 'Cast members: The entire company dancing in the street';

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>threesentation</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<script src="../../three.js/build/Three.js"></script>
+<script src="../../three.js/examples/js/Detector.js"></script>
+<script src="../../three.js/examples/js/Stats.js"></script>
+<script src="../../three.js/examples/fonts/helvetiker_bold.typeface.js"></script>
+</head>
+<body>
+<script>
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	document.body.style.font = '12px monospace';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+	document.body.style.textAlign = 'center';
+	
+	var info = document.createElement( 'div' );
+	document.body.appendChild( info );
+	info.style.top = '0px';
+	info.style.color = '#000';
+	info.style.padding = '5px';
+	info.style.position = 'absolute';
+	info.style.width = '100%';
+	info.innerHTML = '<a href="JavaScript:showSlide(1)">Slide 1</a>' +
+	' ~ <a href="JavaScript:showSlide(2)">Slide 2</a>' +
+	' ~ <a href="JavaScript:showSlide(3)">Slide 3</a>';
+
+    var scene, camera, controls, stats, renderer;
+    var geometry, texture, material, mesh;
+	var clock = new THREE.Clock();
+	var home, slide1, slide2, slide3;
+	
+    init();
+    animate();
+	
+	/*
+	function callBack(geometry) {
+		// material = new THREE.MeshNormalMaterial();
+		material = new THREE.MeshPhongMaterial( { ambient: 0x555555, color: 0x555555, specular: 0xffffff, shininess: 50, shading: THREE.SmoothShading } );
+		mesh = new THREE.Mesh( geometry, material );
+		scene.add( mesh );
+	}	
+
+	function callBack2(mesh) {
+		console.log('callback2', mesh);
+	}
+	*/
+	
+    function init() {
+		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+		
+        scene = new THREE.Scene();
+		scene.position.set(0, 0, 0)
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+		
+		var wp = [ [ 1000, -20, 0 ], [ 400, 200, 0 ], [ 0, 0, 50 ], [ 100, 20, 200 ], [ 100, 200, 1200 ], [ 0, 150, 1200 ], [ 0, 100, 1000 ]  ];
+		addPath(wp);
+		
+		light = new THREE.AmbientLight( 0xffffff );
+		scene.add( light );
+
+		light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 100, 100, 100 ).normalize();
+		scene.add( light );	
+		
+		light = new THREE.PointLight( 0xff0040, 20, 100 );
+		light.position.set( -50, 50, 50);
+		scene.add( light );	
+
+		material = new THREE.MeshNormalMaterial( { wireframe: true } );
+		geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
+		
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set( 0, 0, 0);
+		scene.add( mesh );
+		
+		geometry = new THREE.SphereGeometry( 50, 25, 25 );
+		material = new THREE.MeshNormalMaterial( {shading: THREE.SmoothShading } );
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set( 0, 50, 0 );
+		scene.add( mesh );
+
+		geometry = new THREE.CubeGeometry( 20, 100, 20 );
+		for (var i = 0; i < 100; i++) {
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.position.set( Math.random() * 600 - 300, 50, Math.random() * 600 - 300);
+			scene.add( mesh );		
+		}			
+		home  = new THREE.Object3D();
+		addText(home, 'Threesentation Coding Sample', -330, 170, 50, 50);
+		scene.add( home );
+		
+		stats = new Stats();
+		stats.domElement.style.position = 'absolute';
+		stats.domElement.style.top = '0px';
+		stats.domElement.style.zIndex = 100;
+		document.body.appendChild( stats.domElement );		
+
+        renderer = new THREE.WebGLRenderer( {antialias: true } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+		
+		document.addEventListener( 'keydown', onKeyDown, false );
+		
+    }
+	
+    function animate() {
+        requestAnimationFrame( animate );
+        render();
+		stats.update();
+    }
+
+    function render() {	
+		if (texture) {
+			texture.offset.y	+= 0.002;
+			texture.offset.y	%= 1;
+			texture.needsUpdate	= true;	
+		}
+		var delta = clock.getDelta();
+		THREE.AnimationHandler.update( delta );
+		controls.update( delta );		
+		renderer.render( scene, camera );
+    }
+	
+	function pauseIt() {
+console.log('pause');
+		if (controls.animation.isPlaying === false) {
+			controls.animation.isPlaying = true;
+			controls.animation.isPaused = false;
+		} else {
+			controls.animation.isPlaying = false;
+			controls.animation.isPaused = true;
+		}
+	}
+	
+	function showSlide(slideNumber) {
+		var fname = 'slide' + slideNumber + '/slide' + slideNumber + '.js';
+// console.log(slideNumber, fname);
+		var js = document.createElement('script');
+		js.setAttribute('type', 'text/javascript');
+		js.setAttribute('src', fname);
+		document.body.appendChild(js);
+	}
+	
+	function onKeyDown ( event ) {
+// http://www.webonweboff.com/tips/js/event_key_codes.aspx
+		switch( event.keyCode ) {
+			case 49: /*1*/	showSlide(1); break;
+			case 50: /*2*/	showSlide(2); break;
+			case 51: /*3*/	showSlide(3); break;
+			case 80: /*p*/	pauseIt(); break;
+		}
+	};
+	
+	function addText (asset, text, x, y, z, siz) {		
+		geometry = new THREE.TextGeometry( text, {
+			size: siz,
+			height: 15,
+			font: "helvetiker",
+			weight: "bold"
+		});		
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.set( x, y, z)
+		asset.add( mesh );
+	}
+	
+	function addPath ( wayPoints) {
+		controls = new THREE.PathControls( camera );
+		controls.waypoints = wayPoints
+		controls.duration = 3;
+		controls.useConstantSpeed = true;
+		controls.lookSpeed = 0.09;
+		controls.verticalAngleMap = { srcRange: [ 0, 2 * Math.PI ], dstRange: [ 1.1, 3.8 ] };
+		controls.horizontalAngleMap = { srcRange: [ 0, 2 * Math.PI ], dstRange: [ 1.2, 1.8] };
+		controls.lon = 180;
+		controls.init();
+		scene.add( controls.animationParent );
+		// controls.animation.isPaused = false;	
+		controls.animation.play( true, 0 );
+		controls.animation.loop = false;
+	}
+</script>
+</body>
+</html>
