@@ -17,7 +17,7 @@ console.log('Slide 2');
 	
 	var loader = new THREE.JSONLoader();
 	var morphs = [];
-	loader.load( "../../three.js/examples/models/animated/flamingo.js", function( geometry ) {
+	loader.load( "http://mrdoob.github.com/three.js/examples/models/animated/flamingo.js", function( geometry ) {
 		var material = geometry.materials[ 0 ];
 		material.morphTargets = true;
 		material.color.setHex( 0xffaaaa ); // brightens them a bit
