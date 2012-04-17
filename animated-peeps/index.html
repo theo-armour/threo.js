@@ -12,12 +12,16 @@
 <script>
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-	document.body.style.font = '12px monospace';
+	document.body.style.font = 'bold 12pt monospace';
 	document.body.style.backgroundColor = '#000';
 	document.body.style.margin = '0';
 	document.body.style.overflow = 'hidden';
+	
+	var sheet = document.createElement('style');
+	document.body.appendChild(sheet);
+	sheet.innerHTML = 'a {color: #fff;}';	
 
-	var txt = '\"Animated Peeps\" ~ more details at <a href="http://jaanga.com" target="_blank">jaanga</a>' +
+	var txt = '\"Animated Peeps\" ~ more details at <a href="http://jaanga.com" target="_blank">jaanga.com</a>' +
 	' ~ Built with <a href="https://github.com/mrdoob/three.js" target="_blank">Three.js</a><br>' +
 	'Rotate: Left button ~ Pan: right button ~ Zoom: middle button<br>';
 	
