@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>three.js - 10000 cubes</title>
+</head>
+<body style="background:#080; margin:0; overflow:hidden;">
+<script src="https://raw.github.com/mrdoob/three.js/r37/build/Three.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
+<script type="text/javascript">
+  
+  var scene = new THREE.Scene();
+  var len = 256, sca = 3 * Math.random() + 1;
+  scene.fog = new THREE.Fog( Math.random() * 0xffffff, 1, 0.5 * len );
+  
+  var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 0.3 * len);	
+  camera.position = {x: 0, y: 0, z: 40};
+  
+  var i, cube;
+  var geometry = new Cube(sca, sca, sca);
+  var material = new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff, opacity: 0.4});
+  
+  for (i = 0; i < 10000; i++ ) {
+    cube = new THREE.Mesh(geometry, material);
+    cube.position = {x: len * Math.random() - 0.5 * len, y: len * Math.random() - 0.5 * len, z: len * Math.random() - 0.5 * len};
+    cube.rotation = {x: Math.random(), y: Math.random(), z: Math.random()};
+    cube.scale = {x: sca * Math.random(), y: sca * Math.random(), z: sca * Math.random()};
+    cube.updateMatrix();
+    scene.addObject(cube);
+  }
+  					
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  
+  var stats = new Stats();
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.top = '0px';
+  document.body.appendChild(stats.domElement); 
+  
+	var mouseX = 0, mouseY = 0;
+
+	var windowHalfX = window.innerWidth / 2;
+	var windowHalfY = window.innerHeight / 2;
+          
+	function onDocumentMouseMove(event) {
+		mouseX = ( event.clientX - windowHalfX ) * 0.05;
+		mouseY = ( event.clientY - windowHalfY ) * 0.05;
+	}
+			
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+	
+  function loop() {
+  	camera.position.x += ( mouseX - camera.position.x ) * .1;
+		camera.position.y += ( - mouseY - camera.position.y ) * .1;
+    for (i = 0; i < 10000; i++) {
+      scene.objects[i].rotation.x += 0.05;
+      scene.objects[i].rotation.z += 0.05;
+    } 
+    renderer.render(scene, camera );
+    stats.update();
+  }
+
+  setInterval(loop, 1000 / 16);	
+  
+</script>
+</body>
+</html>
