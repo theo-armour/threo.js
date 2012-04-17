@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>three.js - example - camera</title>
+</head>
+<body>
+<script src="https://raw.github.com/mrdoob/three.js/r35/build/Three.js"></script>
+<script type="text/javascript">
+
+  var scene = new THREE.Scene();
+  
+  // Camera = function ( fov, aspect, near, far ) {  // << from src/cameras/Camera.js
+	// fov = field of view - similar to focal length or zoom on a camera
+	// aspect = proportion of width to height of viewport
+	// near = how near to camera to cut off processing
+	// far = how far away from camera to cut off processing
+	
+	var camera = new THREE.Camera( 80, window.innerWidth / window.innerHeight, 1, 10 );	
+	camera.position = {x: 1, y: 2, z: 3};
+
+	// camera.target = {x: 0, y: 0, z: 0};  // where is the target of the camera
+	// camera.autoUpdateMatrix = true;
+	// camera.projectionMatrix = null;  // ??
+	// camera.matrix = new THREE.Matrix4(); // ??
+	// camera.up = { x: 0, y: 1, z: 0 };	
+	
+	var cube = new THREE.Mesh(new Cube( 1, 1, 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0xff0000} ) );   // << simplest possible	
+	scene.addObject(cube);
+
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+	
+	renderer.render(scene, camera);
+	
+</script>
+</body>
+</html>

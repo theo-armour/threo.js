@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<title>threo.js - sample code for three.js</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="author" content="Theo Armour">
+<style>
+body {color: #ddd; background-color: #888; font-family: sans-serif; margin: 0 30% 20% 30%; text-align: center;}
+a {color: #ccc;}
+#content {text-align: left; width: 642px; margin: auto;}
+</style>
+</head>
+<body>
+<div id="content">
+<br>
+<h1><a href="../index.html">threo.js</a> > Sample Code for Three.js</h1>
+
+<p>
+All code on this page available on GitHub at <a href="https://github.com/tarmour/threo.js/tree/master/examples" target="_blank">examples</a>
+</p>
+
+<p><a href="three-js-example-primitives-cube.html">Cube Primitive</a><br>
+This is Three.js at its simplest most basic level - just a cube on a white background angled so you can see it is a 3D object. Have a look at the source code on GitHub. There are a number of useful options to try out just by uncommenting the source code.</p>
+
+<p><a href="three-js-example-primitives-cylinder.html">Cylinder Primitive</a><br>
+The cylinder primitive offers many construction parameters. For example this primitive can be used to create a pyramid or cone or even a cube.</p>
+
+<p><a href="three-js-example-primitives-plane.html">Plane Primitive</a><br>
+Note that the plane is constructed in the XY axis and that in three.js the Z-axis is the one that comes straight out of the screen towards the viewer.</p>
+
+<p><a href="three-js-example-primitives-sphere.html">Sphere Primitive</a><br>
+The sphere has only a few options: radius and number of horizontal and vertical segments. All the others such as position and scale are the same as the cube.</p>
+
+<p><a href="three-js-example-camera.html">Camera</a><br>
+The camera has a number of special options. See the comments in the source code for details. By the way, the camera is invisible.</p>
+
+<p><a href="three-js-example-primitives-4-primitives.html">Four Primitives Used in One File</a></p>
+
+<p><img src="4-prims.jpg" width="320"><br>
+<i><small>screen capture of 4 Primitives example.</small></i></p>
+<p>
+Just for the fun of it, here is a file with four primitives: cube, sphere, cylinber with offsets all floting above a plane. This file gives you some ideas about placing, scaling and rotating primitives.</p>
+
+<h2>Updates</h2>
+
+<p>2011-02-02: The Camera file was added. Source code for most files was simplified even further. Additional text and links were added to this page. </p>
+
+
+<h2>Notes</h2>
+<p>These coding samples are built on top of <a href="https://github.com/mrdoob/three.js#readme" target="_blank">three.js</a> which is a lightweight 3D engine working over <a href="http://en.wikipedia.org/wiki/WebGL" target="_blank">WebGL</a>.</p>
+
+<p>The simplest way tp see the sourcode is to use the view Page Source feature of your browser. Or you can view the sourcecode using <a href="https://github.com/tarmour/threo.js/tree/gh-pages">GitHub</a>.
+
+<p>The samples were created on top of the shortest, tightest "hello world"-type applet for three.js that I have been able to come up with so far. See the <a href="three-js-example-primitives-cube.html">Cube Primitive</a> for an example. My guess/hope is that if they were minified that each would be less that 1,000 bytes - not including the three.js files or the texture images.</p>
+
+<p>Because of their tightness these files do <b>not</b> contain a warning that you need a browser that supports WebGL. Currently Internet Explorer does not support WebGL. Best to use Google Chrome or the beta versions of  FireFox 4 and Safari 10.6 .</p>
+
+<p>The <a href="three-js-example-primitives-4-primitives.html">Four Primitives Used in One File</a> provides examples of both dot notation (object.scale.z = 5) 
+and object notation ( {x: 0, y: 1, z: 2}) as well as the use of radians in order to calculate rotation angles. 
+Generally objects are created using a unit one as the initial scale, radius or size factor.</p>
+
+<p>Future editions of the files will add more comments and parameters such as position, rotation and scale to each primitive.</P>
+
+<p>Theo Armour, 2011-01-23</p>
+</div>
+</body>
+</html>
