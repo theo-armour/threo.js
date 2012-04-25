@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<title>webgl cubed</title>
+<meta charset=UTF-8">
+</head>
+<body>
+<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script type='text/javascript'>
+/*
+This a demo of of cross server capabilities available with WebGl/Three.js.
+
+The images on the cube are base64 encoded and stored on a separate server from the HTML.
+
+See end of this file for the location
+*/
+	document.body.style.backgroundColor = '#000';
+	document.body.style.color = '#fff';
+	document.body.style.font = 'bold 16pt monospace';
+	document.body.style.margin = '0';
+	document.body.style.overflow = 'hidden';
+	
+	var info = document.createElement( 'div' );
+	info.style.position = 'absolute';
+	
+	info.style.top = '10px';
+	info.style.width = '100%';
+	info.innerHTML = 'Cross Origin Textures & Geometry~ \'WebGL\' images snagged from Flickr & base64 encoded ~ html on github ~ json hosted on remote server';
+	document.body.appendChild( info );
+
+    var camera, scene, renderer;
+    var geometry, material, mesh;
+	var delta = 0;
+
+    init();
+    animate();
+
+    function init() {
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+        camera.position.set( 0, 0, 300 );
+        scene.add( camera );
+		
+        renderer = new THREE.WebGLRenderer( {antialias: true } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+    }
+
+    function animate() {
+        requestAnimationFrame( animate );
+        render();
+    }
+
+    function render() {
+		delta += 0.01;
+		for (var i = 1, l = scene.children.length; i < l; i++) {
+			mesh = scene.children[i];
+			
+			mesh.rotation.x += 5 * mesh.dx;
+			mesh.rotation.y += 5 * mesh.dy;
+
+			mesh.position.x = 100 * Math.sin(mesh.phi + delta) - 50;
+			mesh.position.y = 100 * Math.sin(mesh.phi + delta) - 0;
+			mesh.position.z = 100 * Math.cos(mesh.phi + delta) - 50;
+		}
+        renderer.render( scene, camera );
+    }
+</script>
+<script type="text/javascript" src="http://ta.capnix.com/webgl-cubed/webgl-cubed.js"></script>
+</body>
+</html>
