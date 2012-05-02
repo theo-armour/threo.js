@@ -52,7 +52,6 @@
 		if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 		
         scene = new THREE.Scene();
-		scene.position.set(0, 0, 0)
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
 		
@@ -70,13 +69,12 @@
 		light = new THREE.PointLight( 0xff0040, 20, 100 );
 		light.position.set( -50, 50, 50);
 		scene.add( light );	
-
+// add home meshes
 		material = new THREE.MeshNormalMaterial( { wireframe: true } );
 		geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
 		home  = new THREE.Object3D();
 		
 		mesh = new THREE.Mesh( geometry, material );
-		mesh.rotation.set( - Math.PI / 2, 0, 0);
 		home.add( mesh );
 		
 		geometry = new THREE.SphereGeometry( 50, 25, 25 + Math.random() * 2);
@@ -93,11 +91,11 @@
 			scene.add( mesh );		
 		}			
 		
-		addText(home, 'Threesentation', -250, 300, 50, 80, 0xff0000, 0xaa0000);
+		addText(home, 'Threesentation', -250, 320, 60, 80, 0xff0000, 0xaa0000);
 		addText(home, 'Coding', -200, 250, 30, 80, 0x00ff00, 0x00aa00);
-		addText(home, 'Sample', -150, 170, 50, 80, 0x0000ff, 0x0000aa);
+		addText(home, 'Sample', -150, 160, 50, 80, 0x0000ff, 0x0000aa);
 		scene.add( home );
-		
+// end home		
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
 		stats.domElement.style.top = '0px';
@@ -161,7 +159,6 @@
 	};
 	
 	function addText (asset, text, x, y, z, siz, col, amb) {	
-		// material = new THREE.MeshPhongMaterial( { ambient: 0xff0000, color: 0x0000ff, specular: 0x0000ff, shininess: 50, shading: THREE.SmoothShading }  );
 		material = new THREE.MeshPhongMaterial( { color: col, specular: 0xffffff, ambient: amb } );
 		geometry = new THREE.TextGeometry( text, {
 			size: siz,
@@ -173,22 +170,21 @@
 			bevelEnabled: true
 		});		
 		mesh = new THREE.Mesh( geometry, material );
-		mesh.position.set( x, y, z)
+		mesh.position.set( x, y, z);
 		asset.add( mesh );
 	}
 	
 	function addPath ( wayPoints, duration) {
 		controls = new THREE.PathControls( camera );
-		controls.waypoints = wayPoints
+		controls.waypoints = wayPoints;
 		controls.duration = duration;
 		controls.useConstantSpeed = true;
-		controls.lookSpeed = 0.09;
+		controls.lookSpeed = 0.2; // 0.09;
 		controls.verticalAngleMap = { srcRange: [ 0, 2 * Math.PI ], dstRange: [ 1.1, 3.8 ] };
 		controls.horizontalAngleMap = { srcRange: [ 0, 2 * Math.PI ], dstRange: [ 1.2, 1.8] };
 		controls.lon = 180;
 		controls.init();
 		scene.add( controls.animationParent );
-		// controls.animation.isPaused = false;	
 		controls.animation.play( true, 0 );
 		controls.animation.loop = false;
 	}
