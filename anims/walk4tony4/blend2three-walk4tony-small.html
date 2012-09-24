@@ -3,7 +3,7 @@
 <head>
 <title>Walker 4 Tony</title>
 <meta charset="utf-8">
-<script src="http://mrdoob.github.com/three.js/build/Three.js"></script>
+<script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/js/Detector.js"></script>
 </head>
@@ -83,7 +83,7 @@
     function animate() {
         requestAnimationFrame( animate );
 		
-		theta += 0.01;
+		theta += 0.02;
 		mesh.rotation.y = -theta;
 		mesh.position.x = rad * Math.cos(theta);
 		mesh.position.z = rad * Math.sin(theta);
