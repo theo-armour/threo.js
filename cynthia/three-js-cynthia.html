@@ -1,44 +1,77 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!doctype html>
+<html lang='en'>
 <head>
 <title>three.js - cynthia</title>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'>
 </head>
-<body style="background:#000; margin:0; overflow:hidden;">
-<script src="https://raw.github.com/mrdoob/three.js/r37/build/Three.js"></script>
-<script type="text/javascript">
+<body>
+<!--
+<script src='http://mrdoob.github.com/three.js/build/three.min.js'></script>
+<script src='http://mrdoob.github.com/three.js/examples/js/controls/TrackballControls.js'></script>
+<script src='http://mrdoob.github.com/three.js/examples/js/libs/stats.min.js'></script>
+<script src='http://mrdoob.github.com/three.js/examples/js/Detector.js'></script>
+-->
+<script src='../../three.js/build/three.min.js'></script>
+<script src='../../three.js/examples/js/controls/TrackballControls.js'></script>
+<script src='../../three.js/examples/js/libs/stats.min.js'></script>
+<script src='../../three.js/examples/js/Detector.js'></script>
+
+<script type='text/javascript'>
+	if ( ! Detector.webgl ) { Detector.addGetWebGLMessage(); }
   
-  var scene = new THREE.Scene();
+  document.body.style.cssText = 'background-color: #000; font: 12px monospace; margin: 0; overflow: hidden; text-align: center';
   
-  var camera = new THREE.Camera(80, window.innerWidth / window.innerHeight, 1, 20);	
-  camera.position = {x: 1, y: 5, z: 3};
+  var info = document.createElement( 'div' );
+	document.body.appendChild( info );
+	info.style.cssText = 'top: 0px; color: #fff; padding: 5px; position: absolute; width: 100%';
+	info.innerHTML = 'Cynthia';
+
+  var renderer, scene, camera, controls, stats;
+  var geometry, material, mesh;
   
-  var i, cube;
-  var geometry = new Cube(1, 1, 1);
-  var material = new THREE.MeshBasicMaterial({map: ImageUtils.loadTexture('textures/cynthia.jpg')});
-  
-  for (i = 0; i < 200; i++ ) {
-    cube = new THREE.Mesh(geometry, material);
-    cube.position = {x: 8 * Math.random() - 4, y: 8 * Math.random() - 4, z: 8 * Math.random() - 4};
-    cube.rotation = {x: Math.random(), y: Math.random(), z: Math.random()};
-    scene.addObject(cube);
-  }
-  					
-  var renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  init();
+  animate();
+
+  function init() {
+    scene = new THREE.Scene();
+    
+    camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 1000);	
+    camera.position = {x: 0, y: 0, z: 10};
+    
+    var i, cube;
+    geometry = new THREE.CubeGeometry(1, 1, 1);
+    material = new THREE.MeshBasicMaterial({map: THREE.ImageUtils.loadTexture('textures/cynthia.jpg')});
+    
+    for (i = 0; i < 200; i++ ) {
+      cube = new THREE.Mesh(geometry, material);
+      cube.position = {x: 8 * Math.random() - 4, y: 8 * Math.random() - 4, z: 8 * Math.random() - 4};
+      cube.rotation = {x: Math.random(), y: Math.random(), z: Math.random()};
+      scene.add(cube);
+    }
+              
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+		stats = new Stats();
+		stats.domElement.style.cssText = 'position: absolute; top: 0px; zIndex: 100; ';
+		document.body.appendChild( stats.domElement );
 	
+  }
 	var delta = 0;
-  function loop() {
-    camera.position = {x: Math.cos(delta), y: 5, z: 3 * Math.sin(delta)};
+  
+  function animate() {
+    requestAnimationFrame( animate );
+    camera.position = {x: Math.cos(delta), y: 1, z: 2 * Math.sin(delta)};
     delta += 0.005;
     for (i = 0; i < 200; i ++ ) {
-      scene.objects[i].rotation.x += 0.03;
-      scene.objects[i].rotation.z += 0.03;
+      scene.children[i].rotation.x += 0.01;
+      scene.children[i].rotation.z += 0.01;
     } 
     renderer.render(scene, camera );
+    stats.update();
   }
-
-  setInterval(loop, 17);	
   
 </script>
 </body>
