@@ -5,7 +5,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-<script src="http://mrdoob.github.com/three.js/examples/js/Stats.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/controls/PathControls.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/libs/stats.min.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/js/Detector.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/fonts/helvetiker_bold.typeface.js"></script>
 </head>
@@ -101,7 +102,7 @@
 		stats.domElement.style.zIndex = 100;
 		document.body.appendChild( stats.domElement );		
 
-        renderer = new THREE.WebGLRenderer( {clearColor: 0x000000, clearAlpha: 1, antialias: true } );
+        renderer = new THREE.WebGLRenderer( {setClearColor: 0x000000, antialias: true } );
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 		

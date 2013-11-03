@@ -87,7 +87,7 @@ console.log('Slide 3');
 		var time = Date.now() * 0.01;
 		sphere.rotation.y = sphere.rotation.z = 0.01 * time;
 		uniforms.amplitude.value = 2.5 * Math.sin( sphere.rotation.y * 0.125 );
-		THREE.ColorUtils.adjustHSV( uniforms.color.value, 0.0005, 0, 0 );
+		THREE.setHSL( uniforms.color.value, 0.0005, 0, 0 );
 		for( var i = 0; i < attributes.displacement.value.length; i ++ ) {
 			attributes.displacement.value[ i ] = Math.sin( 0.1 * i + time );
 			noise[ i ] += 0.5 * ( 0.5 - Math.random() );
