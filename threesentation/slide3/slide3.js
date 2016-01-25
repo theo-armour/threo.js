@@ -75,8 +75,8 @@ console.log('Slide 3');
 	slide.add( mesh );
 	scene.add( slide );
 	
-	var t = controls.animationParent.position;
-	addPath( [ [t.x, t.y, t.z ], [ 0, 200, 0 ], [ 700, 200, 0 ],  [ 700, 200, 100 ],  [ 700, 200, -200 ] ], 3);
+//	var t = controls.animationParent.position;
+//	addPath( [ [t.x, t.y, t.z ], [ 0, 200, 0 ], [ 700, 200, 0 ],  [ 700, 200, 100 ],  [ 700, 200, -200 ] ], 3);
 	
 	audioElement.setAttribute('src', 'slide3/slide3.mp3');
 	audioElement.play();
@@ -87,7 +87,8 @@ console.log('Slide 3');
 		var time = Date.now() * 0.01;
 		sphere.rotation.y = sphere.rotation.z = 0.01 * time;
 		uniforms.amplitude.value = 2.5 * Math.sin( sphere.rotation.y * 0.125 );
-		THREE.setHSL( uniforms.color.value, 0.0005, 0, 0 );
+//		THREE.ColorUtils.adjustHSV( uniforms.color.value, 0.0005, 0, 0 );
+uniforms.color.value.setHSL( 0.0005, 0, 0 );
 		for( var i = 0; i < attributes.displacement.value.length; i ++ ) {
 			attributes.displacement.value[ i ] = Math.sin( 0.1 * i + time );
 			noise[ i ] += 0.5 * ( 0.5 - Math.random() );

@@ -13,8 +13,8 @@ console.log('slide 1');
 	addText(slide, 'ONE', -740, 120, 540, 100, 0x0000ff, 0x0000aa);
 	scene.add (slide);
 	
-	var t = controls.animationParent.position;
-	addPath ( [ [t.x, t.y, t.z ], [ -680, 50, 800,  ], [ -700, 50, 700 ]  ], 3 );
+//	var t = controls.animationParent.position;
+//	addPath ( [ [t.x, t.y, t.z ], [ -680, 50, 800,  ], [ -700, 50, 700 ]  ], 3 );
 	
 	audioElement.setAttribute('src', 'slide1/slide1.mp3');
 	audioElement.play();	

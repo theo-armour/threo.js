@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-<script src="http://mrdoob.github.com/three.js/examples/js/controls/PathControls.js"></script>
+<script src="http://mrdoob.github.com/three.js/examples/js/controls/TrackballControls.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/js/libs/stats.min.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/js/Detector.js"></script>
 <script src="http://mrdoob.github.com/three.js/examples/fonts/helvetiker_bold.typeface.js"></script>
@@ -52,11 +52,15 @@
     function init() {		
         scene = new THREE.Scene();
 
+		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true, clearColor: 0xffffff }  );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		scene = new THREE.Scene();
+
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+		camera.position.set( 100, 200, 200 );
+		controls = new THREE.TrackballControls( camera, renderer.domElement );
 		
-		var wp = [ [ 1000, -20, -200 ] , [ 400, 500, -200 ] , [ 0, 100, -200 ] , [ -500, 50, -200 ], [ -500, 50, 500 ], 
-			[ -500, 200, 700 ], [ -300, 200, 700 ], [ 0, 100, 700 ], [ 0, 100, 600 ]];
-		addPath(wp, 8);
 		
 		light = new THREE.AmbientLight( 0xffffff );
 		scene.add( light );
@@ -101,25 +105,15 @@
 		stats.domElement.style.top = '0px';
 		stats.domElement.style.zIndex = 100;
 		document.body.appendChild( stats.domElement );		
-
-        renderer = new THREE.WebGLRenderer( {setClearColor: 0x000000, antialias: true } );
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        document.body.appendChild( renderer.domElement );
 		
 		document.addEventListener( 'keydown', onKeyDown, false );
     }
 	
     function animate() {
         requestAnimationFrame( animate );
-        render();
 		stats.update();
-    }
-
-    function render() {	
-		delta = clock.getDelta();
 		callback();
-		THREE.AnimationHandler.update( delta );
-		controls.update( delta );		
+		controls.update();
 		renderer.render( scene, camera );
     }
 	

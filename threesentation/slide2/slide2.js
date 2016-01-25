@@ -17,8 +17,8 @@ console.log('Slide 2');
 	
 	var loader = new THREE.JSONLoader();
 	var morphs = [];
-	loader.load( "slide2/flamingo.js", function( geometry ) {
-		var material = geometry.materials[ 0 ];
+	loader.load( "slide2/flamingo.js", function( geometry, materials ) {
+		var material = materials[ 0 ];
 		material.morphTargets = true;
 		material.color.setHex( 0xffaaaa ); // brightens them a bit
 		material.ambient.setHex( 0x222222 );
@@ -42,8 +42,8 @@ console.log('Slide 2');
 	} );
 	scene.add( slide );
 	
-	var t = controls.animationParent.position;
-	addPath( [ [t.x, t.y, t.z ], [ 0, 100, 0 ], [ 100, 20, 500 ],  [ 500, 60, 500 ] ], 3);
+//	var t = controls.animationParent.position;
+//	addPath( [ [t.x, t.y, t.z ], [ 0, 100, 0 ], [ 100, 20, 500 ],  [ 500, 60, 500 ] ], 3);
 	
 	audioElement.setAttribute('src', 'slide2/slide2.mp3');
 	audioElement.play();

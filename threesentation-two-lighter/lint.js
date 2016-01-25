@@ -100,7 +100,7 @@
 		// renderer.setClearColorHex( 0x000000, 1 );
         document.body.appendChild( renderer.domElement );
 		
-		document.addEventListener( 'keydown', onKeyDown, false );
+		document.addEventListener('keydown', onKeyDown, false );
 		document.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);
 		document.addEventListener('mousewheel', onDocumentMouseWheel, false);
     }
